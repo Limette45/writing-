@@ -258,7 +258,6 @@ h2 {
 
     <div class="actions">
       <button id="showAnswerBtn">Show Answer</button>
-      <button id="nextBtn">Next</button>
     </div>
 
     <div id="mainStatus" class="status"></div>
@@ -310,6 +309,7 @@ const languages = ["eng", "deu", "esp", "fra", "sve"];
 let inventory = [];
 let currentLanguage = "esp";
 let currentItem = null;
+let answerShown = false;
 
 const mainPage = document.getElementById("mainPage");
 const loadPage = document.getElementById("loadPage");
@@ -319,7 +319,6 @@ const englishSentence = document.getElementById("englishSentence");
 const answerSentence = document.getElementById("answerSentence");
 
 const showAnswerBtn = document.getElementById("showAnswerBtn");
-const nextBtn = document.getElementById("nextBtn");
 const inventoryBtn = document.getElementById("inventoryBtn");
 const loadBtn = document.getElementById("loadBtn");
 
@@ -410,6 +409,8 @@ function parseInput(text) {
 
 function randomItem() {
   mainStatus.textContent = "";
+  answerShown = false;
+  showAnswerBtn.textContent = "Show Answer";
 
   if (inventory.length === 0) {
     currentItem = null;
@@ -579,15 +580,16 @@ document.querySelectorAll(".lang-btn").forEach(button => {
 showAnswerBtn.addEventListener("click", () => {
   if (!currentItem) return;
 
-  answerSentence.classList.toggle("show");
-
-  if (answerSentence.classList.contains("show")) {
+  if (!answerShown) {
+    answerShown = true;
+    answerSentence.classList.add("show");
     answerSentence.textContent =
       currentItem[currentLanguage] || "(No translation)";
+    showAnswerBtn.textContent = "Next";
+  } else {
+    randomItem();
   }
 });
-
-nextBtn.addEventListener("click", randomItem);
 
 englishSentence.addEventListener("click", () => {
   if (currentItem) speak(currentItem.eng, "eng");
