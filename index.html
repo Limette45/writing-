@@ -19,22 +19,30 @@ body {
 header {
   background: #fff;
   border-bottom: 1px solid #ddd;
-  padding: 12px;
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-row {
   display: flex;
   justify-content: center;
   gap: 8px;
   flex-wrap: wrap;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  width: 100%;
 }
 
 button {
   border: 1px solid #ccc;
   background: #fff;
   border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 15px;
+  padding: 8px 12px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -148,8 +156,8 @@ h1, h2 {
   }
 
   header button {
-    font-size: 14px;
-    padding: 9px 10px;
+    font-size: 13px;
+    padding: 7px 10px;
   }
 }
 </style>
@@ -158,13 +166,17 @@ h1, h2 {
 <body>
 
 <header>
-  <button class="lang-btn active" data-lang="esp">🇪🇸 Español</button>
-  <button class="lang-btn" data-lang="deu">🇩🇪 Deutsch</button>
-  <button class="lang-btn" data-lang="sve">🇸🇪 Svenska</button>
-  <button class="lang-btn" data-lang="fra">🇫🇷 Français</button>
-  <button id="nextBtn">Next</button>
-  <button id="inventoryBtn">Inventory</button>
-  <button id="loadBtn">Load</button>
+  <div class="header-row">
+    <button class="lang-btn active" data-lang="esp">🇪🇸 Español</button>
+    <button class="lang-btn" data-lang="deu">🇩🇪 Deutsch</button>
+    <button class="lang-btn" data-lang="sve">🇸🇪 Svenska</button>
+    <button class="lang-btn" data-lang="fra">🇫🇷 Français</button>
+  </div>
+  <div class="header-row">
+    <button id="nextBtn">Next</button>
+    <button id="inventoryBtn">Inventory</button>
+    <button id="loadBtn">Load</button>
+  </div>
 </header>
 
 <main>
