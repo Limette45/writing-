@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>✏️Writing Practice</title>
+<title>Writing Practice</title>
 <style>
 * {
   box-sizing: border-box;
@@ -17,32 +17,40 @@ body {
 }
 
 header {
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  padding: 10px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
   position: sticky;
   top: 0;
   z-index: 10;
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
 }
 
-.header-row {
+.header-inner {
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   gap: 8px;
+}
+
+.language-controls,
+.page-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
-  width: 100%;
+  gap: 8px;
 }
 
 button {
+  min-height: 42px;
+  padding: 10px 14px;
   border: 1px solid #ccc;
-  background: #fff;
   border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 14px;
+  background: #fff;
+  color: #222;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -56,36 +64,56 @@ button.active {
   border-color: #222;
 }
 
+.language-controls button {
+  flex: 1 1 100px;
+  max-width: 150px;
+}
+
+.page-controls button {
+  flex: 0 1 140px;
+}
+
 main {
+  width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 30px 16px;
+  padding: 24px 16px 40px;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .sentence-box {
+  width: 100%;
+  min-height: 220px;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 28px 20px;
-  text-align: center;
-  min-height: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 24px;
+  overflow-wrap: anywhere;
 }
 
 .english {
+  width: 100%;
   font-size: 23px;
-  line-height: 1.5;
+  line-height: 1.6;
+  text-align: center;
   cursor: pointer;
 }
 
 .answer {
-  font-size: 21px;
-  line-height: 1.5;
-  cursor: pointer;
   display: none;
+  width: 100%;
+  font-size: 21px;
+  line-height: 1.6;
+  text-align: center;
+  cursor: pointer;
 }
 
 .answer.show {
@@ -93,43 +121,51 @@ main {
 }
 
 .actions {
-  margin-top: 18px;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  align-items: center;
   flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.actions button {
+  min-width: 120px;
 }
 
 textarea {
+  display: block;
   width: 100%;
   min-height: 400px;
-  resize: vertical;
   padding: 14px;
+  resize: vertical;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-family: monospace;
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-h1, h2 {
-  margin-top: 0;
+h2 {
+  margin: 0 0 18px;
 }
 
 .inventory-item {
+  margin-bottom: 12px;
+  padding: 16px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 12px;
+  overflow-wrap: anywhere;
 }
 
 .inventory-item pre {
+  margin: 0 0 14px;
   white-space: pre-wrap;
-  word-break: break-word;
-  margin: 0 0 12px;
+  overflow-wrap: anywhere;
   font-family: Arial, sans-serif;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.7;
 }
 
 .remove-btn {
@@ -137,16 +173,42 @@ h1, h2 {
 }
 
 .status {
-  margin-top: 12px;
+  margin-top: 14px;
   text-align: center;
-  color: #555;
+  color: #666;
 }
 
-.hidden {
-  display: none;
+#inventoryList {
+  margin-top: 20px;
 }
 
 @media (max-width: 500px) {
+  .language-controls,
+  .page-controls {
+    gap: 6px;
+  }
+
+  .language-controls button {
+    flex: 1 1 calc(50% - 6px);
+    max-width: none;
+    padding: 9px 8px;
+    font-size: 14px;
+  }
+
+  .page-controls button {
+    flex: 1 1 0;
+  }
+
+  main {
+    padding: 18px 12px 30px;
+  }
+
+  .sentence-box {
+    min-height: 200px;
+    padding: 24px 16px;
+    gap: 20px;
+  }
+
   .english {
     font-size: 20px;
   }
@@ -155,32 +217,39 @@ h1, h2 {
     font-size: 19px;
   }
 
-  header button {
-    font-size: 13px;
-    padding: 7px 10px;
+  .actions {
+    gap: 8px;
+  }
+
+  .actions button {
+    flex: 1 1 130px;
+  }
+
+  textarea {
+    min-height: 350px;
+    font-size: 14px;
   }
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <div class="header-row">
-    <button class="lang-btn active" data-lang="esp">🇪🇸 Español</button>
-    <button class="lang-btn" data-lang="deu">🇩🇪 Deutsch</button>
-    <button class="lang-btn" data-lang="sve">🇸🇪 Svenska</button>
-    <button class="lang-btn" data-lang="fra">🇫🇷 Français</button>
-  </div>
-  <div class="header-row">
-    <button id="nextBtn">Next</button>
-    <button id="inventoryBtn">Inventory</button>
-    <button id="loadBtn">Load</button>
+  <div class="header-inner">
+    <div class="language-controls">
+      <button class="lang-btn active" data-lang="esp">Español</button>
+      <button class="lang-btn" data-lang="deu">Deutsch</button>
+      <button class="lang-btn" data-lang="sve">Svenska</button>
+      <button class="lang-btn" data-lang="fra">Français</button>
+    </div>
+    <div class="page-controls">
+      <button id="inventoryBtn">Inventory</button>
+      <button id="loadBtn">Load</button>
+    </div>
   </div>
 </header>
 
 <main>
-
   <section id="mainPage">
     <div class="sentence-box">
       <div id="englishSentence" class="english"></div>
@@ -189,7 +258,7 @@ h1, h2 {
 
     <div class="actions">
       <button id="showAnswerBtn">Show Answer</button>
-      <button id="nextBtn2">Next</button>
+      <button id="nextBtn">Next</button>
     </div>
 
     <div id="mainStatus" class="status"></div>
@@ -213,7 +282,7 @@ C'est la chose la plus cool que j'aie jamais faite.
 Det här är det coolaste jag någonsin har gjort."></textarea>
 
     <div class="actions">
-      <button id="saveBtn">Load & Save</button>
+      <button id="saveBtn">Load &amp; Save</button>
       <button id="backFromLoadBtn">Back</button>
     </div>
 
@@ -223,28 +292,20 @@ Det här är det coolaste jag någonsin har gjort."></textarea>
   <section id="inventoryPage" class="hidden">
     <h2>Inventory</h2>
 
-    <div class="actions" style="justify-content:flex-start;">
+    <div class="actions" style="justify-content:flex-start; margin-top:0;">
       <button id="copyAllBtn">Copy All</button>
       <button id="backFromInventoryBtn">Back</button>
     </div>
 
-    <div id="inventoryList" style="margin-top:18px;"></div>
+    <div id="inventoryList"></div>
   </section>
-
 </main>
 
 <script>
+"use strict";
+
 const STORAGE_KEY = "sentenceWritingPracticeInventory_v1_7f39c2a8";
-
 const languages = ["eng", "deu", "esp", "fra", "sve"];
-
-const languageNames = {
-  eng: "English",
-  deu: "Deutsch",
-  esp: "Español",
-  fra: "Français",
-  sve: "Svenska"
-};
 
 let inventory = [];
 let currentLanguage = "esp";
@@ -259,7 +320,6 @@ const answerSentence = document.getElementById("answerSentence");
 
 const showAnswerBtn = document.getElementById("showAnswerBtn");
 const nextBtn = document.getElementById("nextBtn");
-const nextBtn2 = document.getElementById("nextBtn2");
 const inventoryBtn = document.getElementById("inventoryBtn");
 const loadBtn = document.getElementById("loadBtn");
 
@@ -275,15 +335,33 @@ const loadStatus = document.getElementById("loadStatus");
 function loadStorage() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    inventory = saved ? JSON.parse(saved) : [];
-    if (!Array.isArray(inventory)) inventory = [];
+    const parsed = saved ? JSON.parse(saved) : [];
+
+    inventory = Array.isArray(parsed)
+      ? parsed.filter(item =>
+          item &&
+          typeof item === "object" &&
+          typeof item.eng === "string"
+        ).map(item => ({
+          eng: item.eng,
+          deu: typeof item.deu === "string" ? item.deu : "",
+          esp: typeof item.esp === "string" ? item.esp : "",
+          fra: typeof item.fra === "string" ? item.fra : "",
+          sve: typeof item.sve === "string" ? item.sve : ""
+        }))
+      : [];
   } catch {
     inventory = [];
   }
 }
 
 function saveStorage() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function parseInput(text) {
@@ -331,6 +409,8 @@ function parseInput(text) {
 }
 
 function randomItem() {
+  mainStatus.textContent = "";
+
   if (inventory.length === 0) {
     currentItem = null;
     englishSentence.textContent = "No sentences loaded.";
@@ -343,7 +423,8 @@ function randomItem() {
   currentItem = inventory[index];
 
   englishSentence.textContent = currentItem.eng;
-  answerSentence.textContent = currentItem[currentLanguage] || "(No translation)";
+  answerSentence.textContent =
+    currentItem[currentLanguage] || "(No translation)";
   answerSentence.classList.remove("show");
 }
 
@@ -357,6 +438,8 @@ function updateLanguageButtons() {
 }
 
 function switchLanguage(lang) {
+  if (!languages.includes(lang) || lang === "eng") return;
+
   currentLanguage = lang;
   updateLanguageButtons();
 
@@ -369,34 +452,43 @@ function switchLanguage(lang) {
 function speak(text, lang) {
   if (!text || !("speechSynthesis" in window)) return;
 
-  window.speechSynthesis.cancel();
+  try {
+    window.speechSynthesis.cancel();
 
-  const utterance = new SpeechSynthesisUtterance(text);
+    const utterance = new SpeechSynthesisUtterance(text);
 
-  const voices = window.speechSynthesis.getVoices();
+    const prefixes = {
+      eng: ["en-US", "en-GB", "en"],
+      deu: ["de-DE", "de"],
+      esp: ["es-ES", "es-MX", "es-US", "es"],
+      fra: ["fr-FR", "fr-CA", "fr"],
+      sve: ["sv-SE", "sv"]
+    };
 
-  const prefixes = {
-    eng: ["en-US", "en-GB", "en"],
-    deu: ["de-DE", "de"],
-    esp: ["es-ES", "es-MX", "es-US", "es"],
-    fra: ["fr-FR", "fr-CA", "fr"],
-    sve: ["sv-SE", "sv"]
-  };
+    const preferred = prefixes[lang] || [];
+    const voices = window.speechSynthesis.getVoices();
 
-  const preferred = prefixes[lang] || [];
+    const voice = voices.find(v =>
+      preferred.some(prefix =>
+        v.lang.toLowerCase() === prefix.toLowerCase()
+      )
+    ) || voices.find(v =>
+      preferred.some(prefix =>
+        v.lang.toLowerCase().startsWith(prefix.toLowerCase())
+      )
+    );
 
-  const voice = voices.find(v =>
-    preferred.some(prefix => v.lang === prefix)
-  ) || voices.find(v =>
-    preferred.some(prefix => v.lang.startsWith(prefix))
-  );
+    if (voice) {
+      utterance.voice = voice;
+      utterance.lang = voice.lang;
+    } else {
+      utterance.lang = preferred[0] || "en-US";
+    }
 
-  if (voice) {
-    utterance.voice = voice;
-    utterance.lang = voice.lang;
+    window.speechSynthesis.speak(utterance);
+  } catch {
+    mainStatus.textContent = "Speech playback is unavailable.";
   }
-
-  window.speechSynthesis.speak(utterance);
 }
 
 function showPage(page) {
@@ -409,10 +501,12 @@ function showPage(page) {
   if (page === inventoryPage) {
     renderInventory();
   }
+
+  window.scrollTo(0, 0);
 }
 
 function renderInventory() {
-  inventoryList.innerHTML = "";
+  inventoryList.replaceChildren();
 
   if (inventory.length === 0) {
     inventoryList.textContent = "No sentences saved.";
@@ -424,7 +518,6 @@ function renderInventory() {
     wrapper.className = "inventory-item";
 
     const pre = document.createElement("pre");
-
     pre.textContent =
       "[eng]\n" +
       item.eng + "\n" +
@@ -438,14 +531,19 @@ function renderInventory() {
     removeButton.textContent = "Remove";
 
     removeButton.addEventListener("click", () => {
-      const confirmed = window.confirm(
-        "Are you sure you want to remove this sentence?"
-      );
+      if (!window.confirm("Are you sure you want to remove this sentence?")) {
+        return;
+      }
 
-      if (!confirmed) return;
-
+      const removedItem = inventory[index];
       inventory.splice(index, 1);
-      saveStorage();
+
+      if (!saveStorage()) {
+        inventory.splice(index, 0, removedItem);
+        renderInventory();
+        loadStatus.textContent = "Unable to save changes.";
+        return;
+      }
 
       if (currentItem === item) {
         currentItem = null;
@@ -457,7 +555,6 @@ function renderInventory() {
 
     wrapper.appendChild(pre);
     wrapper.appendChild(removeButton);
-
     inventoryList.appendChild(wrapper);
   });
 }
@@ -491,7 +588,6 @@ showAnswerBtn.addEventListener("click", () => {
 });
 
 nextBtn.addEventListener("click", randomItem);
-nextBtn2.addEventListener("click", randomItem);
 
 englishSentence.addEventListener("click", () => {
   if (currentItem) speak(currentItem.eng, "eng");
@@ -529,7 +625,12 @@ saveBtn.addEventListener("click", () => {
   }
 
   inventory.push(...parsed);
-  saveStorage();
+
+  if (!saveStorage()) {
+    inventory.splice(inventory.length - parsed.length, parsed.length);
+    loadStatus.textContent = "Unable to save. Storage may be unavailable or full.";
+    return;
+  }
 
   loadStatus.textContent =
     `${parsed.length} sentence set${parsed.length === 1 ? "" : "s"} loaded.`;
@@ -540,29 +641,32 @@ saveBtn.addEventListener("click", () => {
 copyAllBtn.addEventListener("click", async () => {
   const text = getAllAsText();
 
-  if (!text) {
-    return;
-  }
+  if (!text) return;
 
   try {
     await navigator.clipboard.writeText(text);
-    copyAllBtn.textContent = "Copied";
-    setTimeout(() => {
-      copyAllBtn.textContent = "Copy All";
-    }, 1200);
   } catch {
     const temp = document.createElement("textarea");
     temp.value = text;
+    temp.style.position = "fixed";
+    temp.style.opacity = "0";
     document.body.appendChild(temp);
     temp.select();
-    document.execCommand("copy");
+
+    const copied = document.execCommand("copy");
     temp.remove();
 
-    copyAllBtn.textContent = "Copied";
-    setTimeout(() => {
-      copyAllBtn.textContent = "Copy All";
-    }, 1200);
+    if (!copied) {
+      copyAllBtn.textContent = "Copy failed";
+      return;
+    }
   }
+
+  copyAllBtn.textContent = "Copied";
+
+  window.setTimeout(() => {
+    copyAllBtn.textContent = "Copy All";
+  }, 1200);
 });
 
 loadStorage();
