@@ -219,16 +219,6 @@ h2 {
   border-color: #222;
 }
 
-.typing-input.correct {
-  border-color: #2e7d32;
-  background: #e8f5e9;
-}
-
-.typing-input.incorrect {
-  border-color: #c62828;
-  background: #ffebee;
-}
-
 .typing-preview {
   margin-top: 8px;
   padding: 10px 14px;
@@ -249,28 +239,16 @@ h2 {
   margin-bottom: 4px;
 }
 
-.typing-feedback {
-  margin-top: 10px;
-  text-align: center;
-  font-size: 15px;
-  min-height: 22px;
-}
-
-.typing-feedback.success {
-  color: #2e7d32;
-  font-weight: bold;
-}
-
-.typing-feedback.error {
-  color: #c62828;
-}
-
-.rules-toggle {
+.typing-controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 12px;
-  text-align: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.rules-toggle button {
+.typing-controls-row button {
   font-size: 13px;
   padding: 6px 12px;
   min-height: auto;
@@ -395,11 +373,13 @@ h2 {
     <div id="typingArea" class="typing-area hidden">
       <div class="typing-preview-label">Your input (converted):</div>
       <div id="typingPreview" class="typing-preview"></div>
-      <textarea id="typingInput" class="typing-input" placeholder="Type the translation here... (use 'a for á, ss for ß, \a for α, etc.)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-      <div id="typingFeedback" class="typing-feedback"></div>
-      <div class="rules-toggle">
+      <textarea id="typingInput" class="typing-input" placeholder="Type the translation here... (Press Enter to go to next sentence)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+      
+      <div class="typing-controls-row">
+        <button id="typingToggleAnswerBtn" type="button">Hide Answer</button>
         <button id="toggleRulesBtn" type="button">Show Input Rules</button>
       </div>
+
       <div id="rulesBox" class="rules-box hidden">
         <h3>Accents</h3>
         <p><code>' + V</code> → acute (e.g. 'a → á)</p>
@@ -449,7 +429,7 @@ h2 {
       </div>
     </div>
 
-    <!-- Mode switch buttons moved to bottom -->
+    <!-- Mode switch buttons -->
     <div class="mode-controls">
       <button id="modeViewBtn" class="active">View Mode</button>
       <button id="modeTypingBtn">Typing Mode</button>
@@ -713,7 +693,7 @@ let currentLanguage = "esp";
 let currentItem = null;
 let answerShown = false;
 let isTypingMode = false;
-let correctTimeout = null;
+let typingShowAnswer = true; // Preference for typing mode answer visibility
 
 const mainPage = document.getElementById("mainPage");
 const loadPage = document.getElementById("loadPage");
@@ -741,7 +721,7 @@ const viewActions = document.getElementById("viewActions");
 const typingArea = document.getElementById("typingArea");
 const typingInput = document.getElementById("typingInput");
 const typingPreview = document.getElementById("typingPreview");
-const typingFeedback = document.getElementById("typingFeedback");
+const typingToggleAnswerBtn = document.getElementById("typingToggleAnswerBtn");
 const toggleRulesBtn = document.getElementById("toggleRulesBtn");
 const rulesBox = document.getElementById("rulesBox");
 
@@ -821,26 +801,11 @@ function parseInput(text) {
   return result;
 }
 
-function normalizeForCompare(str) {
-  // Remove all whitespace characters (spaces, tabs, newlines, etc.)
-  return (str || "").replace(/\s+/g, "");
-}
-
 function randomItem() {
   mainStatus.textContent = "";
-  answerShown = isTypingMode; // Default show in Typing mode
-  showAnswerBtn.textContent = "Show Answer";
-
-  if (correctTimeout) {
-    clearTimeout(correctTimeout);
-    correctTimeout = null;
-  }
 
   typingInput.value = "";
   typingPreview.textContent = "";
-  typingFeedback.textContent = "";
-  typingFeedback.className = "typing-feedback";
-  typingInput.classList.remove("correct", "incorrect");
 
   if (inventory.length === 0) {
     currentItem = null;
@@ -856,11 +821,17 @@ function randomItem() {
   englishSentence.textContent = currentItem.eng;
   answerSentence.textContent =
     currentItem[currentLanguage] || "(No translation)";
-    
+
   if (isTypingMode) {
-    answerSentence.classList.add("show");
+    if (typingShowAnswer) {
+      answerSentence.classList.add("show");
+    } else {
+      answerSentence.classList.remove("show");
+    }
     typingInput.focus();
   } else {
+    answerShown = false;
+    showAnswerBtn.textContent = "Show Answer";
     answerSentence.classList.remove("show");
   }
 }
@@ -885,13 +856,9 @@ function switchLanguage(lang) {
       currentItem[currentLanguage] || "(No translation)";
   }
 
-  // Reset typing state when language changes
   if (isTypingMode) {
     typingInput.value = "";
     typingPreview.textContent = "";
-    typingFeedback.textContent = "";
-    typingFeedback.className = "typing-feedback";
-    typingInput.classList.remove("correct", "incorrect");
     typingInput.focus();
   }
 }
@@ -1026,61 +993,19 @@ function setMode(typing) {
   viewActions.classList.toggle("hidden", typing);
   typingArea.classList.toggle("hidden", !typing);
 
-  // Set answer visibility based on mode
   if (typing) {
-    answerShown = true;
-    answerSentence.classList.add("show");
+    if (typingShowAnswer) {
+      answerSentence.classList.add("show");
+    } else {
+      answerSentence.classList.remove("show");
+    }
     typingInput.value = "";
     typingPreview.textContent = "";
-    typingFeedback.textContent = "";
-    typingFeedback.className = "typing-feedback";
-    typingInput.classList.remove("correct", "incorrect");
     typingInput.focus();
   } else {
     answerShown = false;
     answerSentence.classList.remove("show");
     showAnswerBtn.textContent = "Show Answer";
-  }
-}
-
-function checkTyping() {
-  if (!currentItem || !isTypingMode) return;
-
-  const rawInput = typingInput.value;
-  const converted = convertText(rawInput);
-  typingPreview.textContent = converted;
-
-  const expected = currentItem[currentLanguage] || "";
-  const normalizedInput = normalizeForCompare(converted);
-  const normalizedExpected = normalizeForCompare(expected);
-
-  typingInput.classList.remove("correct", "incorrect");
-  typingFeedback.className = "typing-feedback";
-
-  if (normalizedInput.length === 0) {
-    typingFeedback.textContent = "";
-    return;
-  }
-
-  if (normalizedInput === normalizedExpected) {
-    typingInput.classList.add("correct");
-    typingFeedback.classList.add("success");
-    typingFeedback.textContent = "Correct! Next sentence...";
-
-    if (correctTimeout) clearTimeout(correctTimeout);
-    correctTimeout = setTimeout(() => {
-      randomItem();
-    }, 700);
-  } else {
-    // Only show incorrect feedback if the input is longer than expected
-    // or if it already diverges from the expected start
-    if (normalizedInput.length >= normalizedExpected.length) {
-      typingInput.classList.add("incorrect");
-      typingFeedback.classList.add("error");
-      typingFeedback.textContent = "Not quite right.";
-    } else {
-      typingFeedback.textContent = "";
-    }
   }
 }
 
@@ -1109,6 +1034,16 @@ showAnswerBtn.addEventListener("click", () => {
   }
 });
 
+typingToggleAnswerBtn.addEventListener("click", () => {
+  typingShowAnswer = !typingShowAnswer;
+  typingToggleAnswerBtn.textContent = typingShowAnswer ? "Hide Answer" : "Show Answer";
+  if (typingShowAnswer) {
+    answerSentence.classList.add("show");
+  } else {
+    answerSentence.classList.remove("show");
+  }
+});
+
 englishSentence.addEventListener("click", () => {
   if (currentItem) speak(currentItem.eng, "eng");
 });
@@ -1120,7 +1055,14 @@ answerSentence.addEventListener("click", () => {
 });
 
 typingInput.addEventListener("input", () => {
-  checkTyping();
+  typingPreview.textContent = convertText(typingInput.value);
+});
+
+typingInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    randomItem();
+  }
 });
 
 toggleRulesBtn.addEventListener("click", () => {
