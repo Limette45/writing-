@@ -8,7 +8,6 @@
 * {
   box-sizing: border-box;
 }
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -35,7 +34,8 @@ header {
 }
 
 .language-controls,
-.page-controls {
+.page-controls,
+.mode-controls {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,7 +69,8 @@ button.active {
   max-width: 150px;
 }
 
-.page-controls button {
+.page-controls button,
+.mode-controls button {
   flex: 0 1 140px;
 }
 
@@ -182,9 +183,128 @@ h2 {
   margin-top: 20px;
 }
 
+/* Typing mode styles */
+.typing-area {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.typing-area.hidden {
+  display: none !important;
+}
+
+.typing-input {
+  display: block;
+  width: 100%;
+  min-height: 80px;
+  padding: 14px;
+  resize: vertical;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  background: #fff;
+}
+
+.typing-input:focus {
+  outline: none;
+  border-color: #222;
+}
+
+.typing-input.correct {
+  border-color: #2e7d32;
+  background: #e8f5e9;
+}
+
+.typing-input.incorrect {
+  border-color: #c62828;
+  background: #ffebee;
+}
+
+.typing-preview {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 40px;
+  color: #444;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.typing-preview-label {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.typing-feedback {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 15px;
+  min-height: 22px;
+}
+
+.typing-feedback.success {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.typing-feedback.error {
+  color: #c62828;
+}
+
+.rules-toggle {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.rules-toggle button {
+  font-size: 13px;
+  padding: 6px 12px;
+  min-height: auto;
+}
+
+.rules-box {
+  margin-top: 12px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.rules-box h3 {
+  margin: 12px 0 6px;
+  font-size: 14px;
+}
+
+.rules-box h3:first-child {
+  margin-top: 0;
+}
+
+.rules-box p {
+  margin: 2px 0;
+}
+
+.rules-box code {
+  background: #f0f0f0;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
 @media (max-width: 500px) {
   .language-controls,
-  .page-controls {
+  .page-controls,
+  .mode-controls {
     gap: 6px;
   }
 
@@ -195,7 +315,8 @@ h2 {
     font-size: 14px;
   }
 
-  .page-controls button {
+  .page-controls button,
+  .mode-controls button {
     flex: 1 1 0;
   }
 
@@ -229,11 +350,14 @@ h2 {
     min-height: 350px;
     font-size: 14px;
   }
+
+  .typing-input {
+    font-size: 16px;
+  }
 }
 </style>
 </head>
 <body>
-
 <header>
   <div class="header-inner">
     <div class="language-controls">
@@ -241,6 +365,10 @@ h2 {
       <button class="lang-btn" data-lang="deu">🇩🇪Deutsch</button>
       <button class="lang-btn" data-lang="sve">🇸🇪Svenska</button>
       <button class="lang-btn" data-lang="fra">🇫🇷Français</button>
+    </div>
+    <div class="mode-controls">
+      <button id="modeViewBtn" class="active">View Mode</button>
+      <button id="modeTypingBtn">Typing Mode</button>
     </div>
     <div class="page-controls">
       <button id="inventoryBtn">Inventory</button>
@@ -256,8 +384,66 @@ h2 {
       <div id="answerSentence" class="answer"></div>
     </div>
 
-    <div class="actions">
+    <div class="actions" id="viewActions">
       <button id="showAnswerBtn">Show Answer</button>
+    </div>
+
+    <!-- Typing Mode Area -->
+    <div id="typingArea" class="typing-area hidden">
+      <div class="typing-preview-label">Your input (converted):</div>
+      <div id="typingPreview" class="typing-preview"></div>
+      <textarea id="typingInput" class="typing-input" placeholder="Type the translation here... (use 'a for á, ss for ß, \a for α, etc.)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+      <div id="typingFeedback" class="typing-feedback"></div>
+      <div class="rules-toggle">
+        <button id="toggleRulesBtn" type="button">Show Input Rules</button>
+      </div>
+      <div id="rulesBox" class="rules-box hidden">
+        <h3>Accents</h3>
+        <p><code>' + V</code> → acute (e.g. 'a → á)</p>
+        <p><code>" + V</code> → grave (e.g. "a → à)</p>
+        <p><code>^ + V</code> → circumflex (e.g. ^a → â)</p>
+        <p><code>: + V</code> → trema (e.g. :u → ü)</p>
+        <h3>Other letters</h3>
+        <p><code>, + c</code> → ç</p>
+        <p><code>/ + o</code> → ø</p>
+        <h3>Two-character combinations</h3>
+        <p><code>ss</code> → ß &nbsp; <code>SS</code> → ẞ</p>
+        <p><code>nn</code> → ñ &nbsp; <code>NN</code> → Ñ</p>
+        <p><code>ao</code> → å &nbsp; <code>AO</code> → Å</p>
+        <p><code>ae</code> → ä &nbsp; <code>AE</code> → Ä</p>
+        <p><code>oe</code> → ö &nbsp; <code>OE</code> → Ö</p>
+        <p><code>ue</code> → ü &nbsp; <code>UE</code> → Ü</p>
+        <h3>Escape</h3>
+        <p><code>s!s</code> → ss &nbsp; <code>n!n</code> → nn</p>
+        <p><code>a!o</code> → ao &nbsp; <code>a!e</code> → ae</p>
+        <p><code>o!e</code> → oe &nbsp; <code>u!e</code> → ue</p>
+        <p><code>!!</code> → !</p>
+        <h3>Greek</h3>
+        <p><code>\a</code> → α &nbsp; <code>\A</code> → Α</p>
+        <p><code>\b</code> → β &nbsp; <code>\B</code> → Β</p>
+        <p><code>\g</code> → γ &nbsp; <code>\G</code> → Γ</p>
+        <p><code>\d</code> → δ &nbsp; <code>\D</code> → Δ</p>
+        <p><code>\e</code> → ε &nbsp; <code>\E</code> → Ε</p>
+        <p><code>\z</code> → ζ &nbsp; <code>\Z</code> → Ζ</p>
+        <p><code>\h</code> → η &nbsp; <code>\H</code> → Η</p>
+        <p><code>\th</code> → θ &nbsp; <code>\Th</code> → Θ</p>
+        <p><code>\i</code> → ι &nbsp; <code>\I</code> → Ι</p>
+        <p><code>\k</code> → κ &nbsp; <code>\K</code> → Κ</p>
+        <p><code>\l</code> → λ &nbsp; <code>\L</code> → Λ</p>
+        <p><code>\m</code> → μ &nbsp; <code>\M</code> → Μ</p>
+        <p><code>\n</code> → ν &nbsp; <code>\N</code> → Ν</p>
+        <p><code>\x</code> → ξ &nbsp; <code>\X</code> → Ξ</p>
+        <p><code>\o</code> → ο &nbsp; <code>\O</code> → Ο</p>
+        <p><code>\p</code> → π &nbsp; <code>\P</code> → Π</p>
+        <p><code>\r</code> → ρ &nbsp; <code>\R</code> → Ρ</p>
+        <p><code>\s</code> → σ &nbsp; <code>\S</code> → Σ</p>
+        <p><code>\t</code> → τ &nbsp; <code>\T</code> → Τ</p>
+        <p><code>\y</code> → υ &nbsp; <code>\Y</code> → Υ</p>
+        <p><code>\f</code> → φ &nbsp; <code>\F</code> → Φ</p>
+        <p><code>\ch</code> → χ &nbsp; <code>\Ch</code> → Χ</p>
+        <p><code>\ps</code> → ψ &nbsp; <code>\Ps</code> → Ψ</p>
+        <p><code>\w</code> → ω &nbsp; <code>\W</code> → Ω</p>
+      </div>
     </div>
 
     <div id="mainStatus" class="status"></div>
@@ -265,7 +451,6 @@ h2 {
 
   <section id="loadPage" class="hidden">
     <h2>Load Sentences</h2>
-
     <textarea id="loadInput" placeholder="[eng]
 This one is the same as this.
 Das hier ist dasselbe wie das hier.
@@ -290,7 +475,6 @@ Det här är det coolaste jag någonsin har gjort."></textarea>
 
   <section id="inventoryPage" class="hidden">
     <h2>Inventory</h2>
-
     <div class="actions" style="justify-content:flex-start; margin-top:0;">
       <button id="copyAllBtn">Copy All</button>
       <button id="backFromInventoryBtn">Back</button>
@@ -303,6 +487,215 @@ Det här är det coolaste jag någonsin har gjort."></textarea>
 <script>
 "use strict";
 
+// ============================================================
+// Multilingual Keyboard conversion logic
+// ============================================================
+
+const acute = {
+  a: "á", e: "é", i: "í", o: "ó", u: "ú",
+  A: "Á", E: "É", I: "Í", O: "Ó", U: "Ú"
+};
+
+const grave = {
+  a: "à", e: "è", i: "ì", o: "ò", u: "ù",
+  A: "À", E: "È", I: "Ì", O: "Ò", U: "Ù"
+};
+
+const circumflex = {
+  a: "â", e: "ê", i: "î", o: "ô", u: "û",
+  A: "Â", E: "Ê", I: "Î", O: "Ô", U: "Û"
+};
+
+const trema = {
+  a: "ä", e: "ë", i: "ï", o: "ö", u: "ü",
+  A: "Ä", E: "Ë", I: "Ï", O: "Ö", U: "Ü",
+  y: "ÿ", Y: "Ÿ"
+};
+
+const cedilla = {
+  c: "ç",
+  C: "Ç"
+};
+
+const slashO = {
+  o: "ø",
+  O: "Ø"
+};
+
+const twoCharRules = {
+  "ss": "ß",
+  "SS": "ẞ",
+  "nn": "ñ",
+  "NN": "Ñ",
+  "ao": "å",
+  "AO": "Å",
+  "ae": "ä",
+  "AE": "Ä",
+  "oe": "ö",
+  "OE": "Ö",
+  "ue": "ü",
+  "UE": "Ü"
+};
+
+const greekRules = {
+  "a": "α",
+  "b": "β",
+  "g": "γ",
+  "d": "δ",
+  "e": "ε",
+  "z": "ζ",
+  "h": "η",
+  "th": "θ",
+  "i": "ι",
+  "k": "κ",
+  "l": "λ",
+  "m": "μ",
+  "n": "ν",
+  "x": "ξ",
+  "o": "ο",
+  "p": "π",
+  "r": "ρ",
+  "s": "σ",
+  "t": "τ",
+  "y": "υ",
+  "f": "φ",
+  "ch": "χ",
+  "ps": "ψ",
+  "w": "ω"
+};
+
+function convertGreek(text, index) {
+  if (text[index] !== "\\") {
+    return null;
+  }
+
+  const rest = text.slice(index + 1);
+  const twoLetter = ["th", "ch", "ps"];
+
+  for (const key of twoLetter) {
+    const lower = key;
+    const title = key[0].toUpperCase() + key.slice(1);
+    const upper = key.toUpperCase();
+
+    if (rest.startsWith(lower)) {
+      return { char: greekRules[lower], length: 3 };
+    }
+    if (rest.startsWith(title)) {
+      return { char: greekRules[lower].toUpperCase(), length: 3 };
+    }
+    if (rest.startsWith(upper)) {
+      return { char: greekRules[lower].toUpperCase(), length: 3 };
+    }
+  }
+
+  if (rest.length > 0 && /^[A-Za-z]$/.test(rest[0])) {
+    const key = rest[0].toLowerCase();
+    if (greekRules[key]) {
+      const isUpper = rest[0] === rest[0].toUpperCase();
+      return {
+        char: isUpper ? greekRules[key].toUpperCase() : greekRules[key],
+        length: 2
+      };
+    }
+  }
+
+  return null;
+}
+
+function convertText(text) {
+  let result = "";
+  let i = 0;
+
+  while (i < text.length) {
+    // Greek
+    const greek = convertGreek(text, i);
+    if (greek) {
+      result += greek.char;
+      i += greek.length;
+      continue;
+    }
+
+    // !! → !
+    if (text[i] === "!" && text[i + 1] === "!") {
+      result += "!";
+      i += 2;
+      continue;
+    }
+
+    // ! escape: s!s → ss
+    if (text[i + 1] === "!" && i + 2 < text.length) {
+      result += text[i];
+      result += text[i + 2];
+      i += 3;
+      continue;
+    }
+
+    // Accent marks
+    if (
+      (text[i] === "'" || text[i] === '"' || text[i] === "^" || text[i] === ":") &&
+      i + 1 < text.length
+    ) {
+      const mark = text[i];
+      const next = text[i + 1];
+
+      if (mark === "'" && acute[next]) {
+        result += acute[next];
+        i += 2;
+        continue;
+      }
+      if (mark === '"' && grave[next]) {
+        result += grave[next];
+        i += 2;
+        continue;
+      }
+      if (mark === "^" && circumflex[next]) {
+        result += circumflex[next];
+        i += 2;
+        continue;
+      }
+      if (mark === ":" && trema[next]) {
+        result += trema[next];
+        i += 2;
+        continue;
+      }
+    }
+
+    // , + c → ç
+    if (text[i] === "," && i + 1 < text.length && cedilla[text[i + 1]]) {
+      result += cedilla[text[i + 1]];
+      i += 2;
+      continue;
+    }
+
+    // / + o → ø
+    if (text[i] === "/" && i + 1 < text.length && slashO[text[i + 1]]) {
+      result += slashO[text[i + 1]];
+      i += 2;
+      continue;
+    }
+
+    // Two-character rules
+    if (i + 1 < text.length) {
+      const pair = text[i] + text[i + 1];
+      if (twoCharRules[pair]) {
+        result += twoCharRules[pair];
+        i += 2;
+        continue;
+      }
+    }
+
+    // Normal character
+    result += text[i];
+    i++;
+  }
+
+  return result;
+}
+
+// ============================================================
+// Writing Practice app
+// ============================================================
+
 const STORAGE_KEY = "sentenceWritingPracticeInventory_v1_7f39c2a8";
 const languages = ["eng", "deu", "esp", "fra", "sve"];
 
@@ -310,6 +703,8 @@ let inventory = [];
 let currentLanguage = "esp";
 let currentItem = null;
 let answerShown = false;
+let isTypingMode = false;
+let correctTimeout = null;
 
 const mainPage = document.getElementById("mainPage");
 const loadPage = document.getElementById("loadPage");
@@ -330,6 +725,16 @@ const copyAllBtn = document.getElementById("copyAllBtn");
 
 const mainStatus = document.getElementById("mainStatus");
 const loadStatus = document.getElementById("loadStatus");
+
+const modeViewBtn = document.getElementById("modeViewBtn");
+const modeTypingBtn = document.getElementById("modeTypingBtn");
+const viewActions = document.getElementById("viewActions");
+const typingArea = document.getElementById("typingArea");
+const typingInput = document.getElementById("typingInput");
+const typingPreview = document.getElementById("typingPreview");
+const typingFeedback = document.getElementById("typingFeedback");
+const toggleRulesBtn = document.getElementById("toggleRulesBtn");
+const rulesBox = document.getElementById("rulesBox");
 
 function loadStorage() {
   try {
@@ -407,10 +812,26 @@ function parseInput(text) {
   return result;
 }
 
+function normalizeForCompare(str) {
+  // Remove all whitespace characters (spaces, tabs, newlines, etc.)
+  return (str || "").replace(/\s+/g, "");
+}
+
 function randomItem() {
   mainStatus.textContent = "";
   answerShown = false;
   showAnswerBtn.textContent = "Show Answer";
+
+  if (correctTimeout) {
+    clearTimeout(correctTimeout);
+    correctTimeout = null;
+  }
+
+  typingInput.value = "";
+  typingPreview.textContent = "";
+  typingFeedback.textContent = "";
+  typingFeedback.className = "typing-feedback";
+  typingInput.classList.remove("correct", "incorrect");
 
   if (inventory.length === 0) {
     currentItem = null;
@@ -427,6 +848,10 @@ function randomItem() {
   answerSentence.textContent =
     currentItem[currentLanguage] || "(No translation)";
   answerSentence.classList.remove("show");
+
+  if (isTypingMode) {
+    typingInput.focus();
+  }
 }
 
 function updateLanguageButtons() {
@@ -447,6 +872,16 @@ function switchLanguage(lang) {
   if (currentItem) {
     answerSentence.textContent =
       currentItem[currentLanguage] || "(No translation)";
+  }
+
+  // Reset typing state when language changes
+  if (isTypingMode) {
+    typingInput.value = "";
+    typingPreview.textContent = "";
+    typingFeedback.textContent = "";
+    typingFeedback.className = "typing-feedback";
+    typingInput.classList.remove("correct", "incorrect");
+    typingInput.focus();
   }
 }
 
@@ -571,11 +1006,81 @@ function getAllAsText() {
   ).join("\n\n");
 }
 
+function setMode(typing) {
+  isTypingMode = typing;
+
+  modeViewBtn.classList.toggle("active", !typing);
+  modeTypingBtn.classList.toggle("active", typing);
+
+  viewActions.classList.toggle("hidden", typing);
+  typingArea.classList.toggle("hidden", !typing);
+
+  // Reset answer visibility
+  answerShown = false;
+  answerSentence.classList.remove("show");
+  showAnswerBtn.textContent = "Show Answer";
+
+  if (typing) {
+    typingInput.value = "";
+    typingPreview.textContent = "";
+    typingFeedback.textContent = "";
+    typingFeedback.className = "typing-feedback";
+    typingInput.classList.remove("correct", "incorrect");
+    typingInput.focus();
+  }
+}
+
+function checkTyping() {
+  if (!currentItem || !isTypingMode) return;
+
+  const rawInput = typingInput.value;
+  const converted = convertText(rawInput);
+  typingPreview.textContent = converted;
+
+  const expected = currentItem[currentLanguage] || "";
+  const normalizedInput = normalizeForCompare(converted);
+  const normalizedExpected = normalizeForCompare(expected);
+
+  typingInput.classList.remove("correct", "incorrect");
+  typingFeedback.className = "typing-feedback";
+
+  if (normalizedInput.length === 0) {
+    typingFeedback.textContent = "";
+    return;
+  }
+
+  if (normalizedInput === normalizedExpected) {
+    typingInput.classList.add("correct");
+    typingFeedback.classList.add("success");
+    typingFeedback.textContent = "Correct! Next sentence...";
+
+    if (correctTimeout) clearTimeout(correctTimeout);
+    correctTimeout = setTimeout(() => {
+      randomItem();
+    }, 700);
+  } else {
+    // Only show incorrect feedback if the input is longer than expected
+    // or if it already diverges from the expected start
+    if (normalizedInput.length >= normalizedExpected.length) {
+      typingInput.classList.add("incorrect");
+      typingFeedback.classList.add("error");
+      typingFeedback.textContent = "Not quite right.";
+    } else {
+      typingFeedback.textContent = "";
+    }
+  }
+}
+
+// Event listeners
+
 document.querySelectorAll(".lang-btn").forEach(button => {
   button.addEventListener("click", () => {
     switchLanguage(button.dataset.lang);
   });
 });
+
+modeViewBtn.addEventListener("click", () => setMode(false));
+modeTypingBtn.addEventListener("click", () => setMode(true));
 
 showAnswerBtn.addEventListener("click", () => {
   if (!currentItem) return;
@@ -599,6 +1104,16 @@ answerSentence.addEventListener("click", () => {
   if (currentItem && answerSentence.classList.contains("show")) {
     speak(currentItem[currentLanguage], currentLanguage);
   }
+});
+
+typingInput.addEventListener("input", () => {
+  checkTyping();
+});
+
+toggleRulesBtn.addEventListener("click", () => {
+  const isHidden = rulesBox.classList.contains("hidden");
+  rulesBox.classList.toggle("hidden", !isHidden);
+  toggleRulesBtn.textContent = isHidden ? "Hide Input Rules" : "Show Input Rules";
 });
 
 inventoryBtn.addEventListener("click", () => {
@@ -671,10 +1186,10 @@ copyAllBtn.addEventListener("click", async () => {
   }, 1200);
 });
 
+// Init
 loadStorage();
 updateLanguageButtons();
 randomItem();
 </script>
-
 </body>
 </html>
