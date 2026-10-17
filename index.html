@@ -5,123 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Writing Practice</title>
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   font-family: Arial, sans-serif;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 0;
+  padding: 16px;
+  background: #f5f5f5;
   color: #222;
 }
 
-button, textarea, input {
-  font: inherit;
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
 button {
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background: #f7f7f7;
   padding: 10px 14px;
+  background: #f7f7f7;
+  color: #222;
+  font-size: 15px;
 }
 
 button:hover {
-  background: #ececec;
+  background: #eaeaea;
 }
 
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
+button.active {
+  background: #dff6ff;
+  border-color: #6bbbd5;
 }
 
-.header {
+.language-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
+  gap: 8px;
+  width: 100%;
 }
 
-.language-button {
-  min-width: 68px;
+.language-buttons button {
+  flex: 1;
+  min-width: 100px;
 }
 
-.language-button.active {
-  background: #dff6ff;
-  border-color: #6bb8d6;
-  font-weight: bold;
+#mainPage,
+#inventoryPage,
+#loadPage {
+  display: none;
 }
 
-#mainPage {
+#mainPage.active,
+#inventoryPage.active,
+#loadPage.active {
   display: block;
 }
 
-#sentenceArea {
-  margin-top: 24px;
-}
-
-#englishSentence {
-  font-size: 1.35rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
+.english {
+  font-size: 22px;
+  line-height: 1.5;
+  margin: 24px 0;
   overflow-wrap: anywhere;
 }
 
-#answerArea {
-  display: none;
-  margin: 18px 0;
-  padding: 16px;
-  background: #f5f5f5;
+.answer {
+  font-size: 20px;
+  line-height: 1.6;
+  margin: 20px 0;
+  padding: 14px;
+  background: #f0f8ff;
   border-radius: 8px;
-  line-height: 1.6;
-  white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
-#showAnswerBtn {
-  display: block;
+textarea {
   width: 100%;
-  max-width: 340px;
-  min-width: 160px;
-  min-height: 58px;
-  margin: 24px auto 0;
-  padding: 14px 24px;
-  font-size: 17px;
-  font-weight: bold;
-  background: #e8f5e9;
-  border-color: #a5d6a7;
-}
-
-#showAnswerBtn:hover {
-  background: #d8eedb;
-}
-
-#typingArea {
-  display: none;
-  margin-top: 20px;
-}
-
-#typingInput {
-  width: 100%;
-  min-height: 130px;
+  min-height: 120px;
   padding: 12px;
-  border: 1px solid #bbb;
+  border: 1px solid #ccc;
   border-radius: 8px;
+  font-size: 18px;
   resize: vertical;
 }
 
-#typingAnswer {
-  display: none;
-  margin-top: 14px;
-  padding: 14px;
-  background: #f5f5f5;
-  border-radius: 8px;
-  line-height: 1.6;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+.main-actions {
+  margin-top: 20px;
+}
+
+#showAnswerBtn {
+  min-height: 58px;
+  padding: 14px 24px;
+  min-width: 160px;
+  font-size: 17px;
+  font-weight: bold;
 }
 
 .mode-controls {
@@ -129,99 +117,72 @@ button:disabled {
   justify-content: center;
   gap: 12px;
   margin-top: 50px;
+  flex-wrap: wrap;
 }
 
-.mode-button {
+.mode-controls button {
   min-width: 130px;
-}
-
-.mode-button.active {
-  background: #dff6ff;
-  border-color: #6bb8d6;
-  font-weight: bold;
-}
-
-#status {
-  margin-top: 18px;
-  text-align: center;
-  color: #666;
-  font-size: 0.9rem;
 }
 
 .bottom-controls {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
   margin-top: 36px;
   padding-top: 16px;
   border-top: 1px solid #ddd;
 }
 
-#inventoryPage,
-#loadPage {
-  display: none;
-}
-
-.page-title {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-.page-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-#inventoryList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.status {
+  color: #666;
+  margin-top: 12px;
+  font-size: 14px;
 }
 
 .inventory-item {
-  padding: 14px;
-  margin-bottom: 10px;
   border: 1px solid #ddd;
+  padding: 12px;
   border-radius: 8px;
+  margin-bottom: 10px;
   overflow-wrap: anywhere;
 }
 
 .inventory-item button {
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
-#loadInput {
-  width: 100%;
-  min-height: 250px;
-  padding: 12px;
-  border: 1px solid #bbb;
-  border-radius: 8px;
-  resize: vertical;
+.page-title {
+  font-size: 22px;
+  margin-bottom: 16px;
 }
 
-#loadMessage {
+textarea#importText {
+  min-height: 220px;
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-top: 12px;
-  white-space: pre-wrap;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   body {
+    padding: 8px;
+  }
+
+  .container {
     padding: 14px;
   }
 
-  .header {
-    gap: 8px;
+  .english {
+    font-size: 20px;
   }
 
-  .language-button {
-    flex: 1 1 calc(50% - 8px);
-  }
-
-  #englishSentence {
-    font-size: 1.2rem;
+  .answer {
+    font-size: 18px;
   }
 
   #showAnswerBtn {
@@ -233,397 +194,312 @@ button:disabled {
 
   .mode-controls {
     margin-top: 56px;
-    gap: 8px;
   }
 
-  .mode-button {
+  .mode-controls button {
     flex: 1;
-    min-width: 0;
-    padding: 12px 8px;
-  }
-
-  .bottom-controls {
-    margin-top: 36px;
   }
 }
 </style>
 </head>
 <body>
-
-<div class="header" id="languageHeader">
-  <button class="language-button active" data-lang="esp">🇪🇸 Español</button>
-  <button class="language-button" data-lang="deu">🇩🇪 Deutsch</button>
-  <button class="language-button" data-lang="fra">🇫🇷 Français</button>
-  <button class="language-button" data-lang="sve">🇸🇪 Svenska</button>
-</div>
-
-<main id="mainPage">
-  <div id="sentenceArea">
-    <div id="englishSentence"></div>
-    <div id="answerArea"></div>
-
-    <button id="showAnswerBtn">✨ Show Answer</button>
-  </div>
-
-  <div id="typingArea">
-    <textarea id="typingInput" placeholder="Type your answer here..."></textarea>
-    <div id="typingAnswer"></div>
-    <div class="page-controls">
-      <button id="checkTypingBtn">Show Answer</button>
-      <button id="nextTypingBtn">Next</button>
+<div class="container">
+  <header>
+    <div class="language-buttons">
+      <button class="active" data-lang="esp">🇪🇸 Español</button>
+      <button data-lang="deu">🇩🇪 Deutsch</button>
+      <button data-lang="sve">🇸🇪 Svenska</button>
+      <button data-lang="fra">🇫🇷 Français</button>
     </div>
-  </div>
+  </header>
 
-  <div class="mode-controls">
-    <button id="viewModeBtn" class="mode-button active">View Mode</button>
-    <button id="typingModeBtn" class="mode-button">Typing Mode</button>
-  </div>
+  <section id="mainPage" class="active">
+    <div id="englishText" class="english"></div>
 
-  <div id="status"></div>
+    <div id="typingArea" style="display:none;">
+      <textarea id="userInput" placeholder="Type your sentence here..."></textarea>
+    </div>
 
-  <div class="bottom-controls">
-    <button id="inventoryBtn">Inventory</button>
-    <button id="loadBtn">Load</button>
-  </div>
-</main>
+    <div id="answerArea" class="answer" style="display:none;"></div>
 
-<section id="inventoryPage">
-  <div class="page-title">Inventory</div>
-  <div class="page-controls">
-    <button id="copyAllBtn">Copy All</button>
-    <button id="backFromInventoryBtn">Back</button>
-  </div>
-  <ul id="inventoryList"></ul>
-</section>
+    <div class="main-actions">
+      <button id="showAnswerBtn">✨ Show Answer</button>
+    </div>
 
-<section id="loadPage">
-  <div class="page-title">Load Sentences</div>
-  <p>Paste your sentences below using the format <code>[eng]</code>, followed by English, German, Spanish, French, and Swedish translations, each on its own line.</p>
-  <textarea id="loadInput" placeholder="[eng]&#10;English sentence&#10;German translation&#10;Spanish translation&#10;French translation&#10;Swedish translation"></textarea>
-  <div class="page-controls" style="margin-top: 14px;">
-    <button id="importBtn">Import</button>
-    <button id="backFromLoadBtn">Back</button>
-  </div>
-  <div id="loadMessage"></div>
-</section>
+    <div class="mode-controls">
+      <button id="viewModeBtn" class="active">View Mode</button>
+      <button id="typingModeBtn">Typing Mode</button>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div class="bottom-controls">
+      <button id="inventoryBtn">Inventory</button>
+      <button id="loadBtn">Load</button>
+    </div>
+  </section>
+
+  <section id="inventoryPage">
+    <div class="page-title">Inventory</div>
+    <div id="inventoryList"></div>
+    <div class="page-actions">
+      <button id="copyAllBtn">Copy All</button>
+      <button id="backFromInventoryBtn">Back</button>
+    </div>
+  </section>
+
+  <section id="loadPage">
+    <div class="page-title">Load Sentences</div>
+    <p>Paste your sentences below.</p>
+    <textarea id="importText" placeholder="[eng]
+English sentence
+German translation
+Spanish translation
+French translation
+Swedish translation"></textarea>
+    <div class="page-actions">
+      <button id="importBtn">Load Sentences</button>
+      <button id="backFromLoadBtn">Back</button>
+    </div>
+    <div id="loadStatus" class="status"></div>
+  </section>
+</div>
 
 <script>
 const STORAGE_KEY = "sentenceWritingPracticeInventory_v1_7f39c2a8";
 
-const LANGUAGES = {
-  esp: { index: 2, name: "Spanish", speech: ["es-MX", "es-419", "es-US", "es"] },
-  deu: { index: 1, name: "German", speech: ["de-DE", "de"] },
-  fra: { index: 3, name: "French", speech: ["fr-FR", "fr"] },
-  sve: { index: 4, name: "Swedish", speech: ["sv-SE", "sv"] }
+const languageNames = {
+  esp: "Spanish",
+  deu: "German",
+  sve: "Swedish",
+  fra: "French"
 };
 
-let sentences = [];
+const languageVoices = {
+  esp: ["es-MX", "es-419", "es-US", "es"],
+  deu: ["de-DE", "de"],
+  sve: ["sv-SE", "sv"],
+  fra: ["fr-FR", "fr"]
+};
+
+let inventory = [];
 let currentIndex = 0;
 let currentLanguage = "esp";
-let currentMode = "view";
+let mode = "view";
 let answerVisible = false;
-let typingAnswerVisible = false;
 
-const englishSentence = document.getElementById("englishSentence");
+const englishText = document.getElementById("englishText");
+const typingArea = document.getElementById("typingArea");
+const userInput = document.getElementById("userInput");
 const answerArea = document.getElementById("answerArea");
 const showAnswerBtn = document.getElementById("showAnswerBtn");
-const typingArea = document.getElementById("typingArea");
-const typingInput = document.getElementById("typingInput");
-const typingAnswer = document.getElementById("typingAnswer");
 const status = document.getElementById("status");
-
-const mainPage = document.getElementById("mainPage");
-const inventoryPage = document.getElementById("inventoryPage");
-const loadPage = document.getElementById("loadPage");
 
 function loadInventory() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    sentences = saved ? JSON.parse(saved) : [];
-    if (!Array.isArray(sentences)) sentences = [];
+    const stored = localStorage.getItem(STORAGE_KEY);
+    inventory = stored ? JSON.parse(stored) : [];
   } catch {
-    sentences = [];
+    inventory = [];
   }
 }
 
 function saveInventory() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(sentences));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory));
 }
 
-function normalizeSentence(item) {
-  const result = {
-    eng: String(item.eng || "").trim(),
-    deu: String(item.deu || "").trim(),
-    esp: String(item.esp || "").trim(),
-    fra: String(item.fra || "").trim(),
-    sve: String(item.sve || "").trim()
-  };
-  return result;
+function currentSentence() {
+  return inventory[currentIndex];
 }
 
-function getCurrentSentence() {
-  return sentences[currentIndex] || null;
-}
-
-function getTranslation(sentence) {
+function getTranslation(sentence, lang) {
   if (!sentence) return "";
-  return sentence[currentLanguage] || "";
+  return sentence[lang] || "";
 }
 
-function updateStatus() {
-  if (sentences.length === 0) {
-    status.textContent = "No sentences loaded.";
-  } else {
-    status.textContent = `${currentIndex + 1} / ${sentences.length}`;
+function render() {
+  const sentence = currentSentence();
+
+  if (!sentence) {
+    englishText.textContent = "No sentences loaded. Use Load to add sentences.";
+    typingArea.style.display = "none";
+    answerArea.style.display = "none";
+    showAnswerBtn.style.display = "none";
+    status.textContent = "0 sentences";
+    return;
   }
-}
 
-function stopSpeech() {
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
+  showAnswerBtn.style.display = "inline-block";
+  englishText.textContent = sentence.eng || "";
+  status.textContent = `${currentIndex + 1} / ${inventory.length}`;
+
+  if (mode === "view") {
+    typingArea.style.display = "none";
+    answerArea.style.display = answerVisible ? "block" : "none";
+    answerArea.textContent = answerVisible
+      ? getTranslation(sentence, currentLanguage)
+      : "";
+    showAnswerBtn.textContent = answerVisible ? "✨ Next" : "✨ Show Answer";
+  } else {
+    typingArea.style.display = "block";
+    answerArea.style.display = answerVisible ? "block" : "none";
+    answerArea.textContent = answerVisible
+      ? getTranslation(sentence, currentLanguage)
+      : "";
+    showAnswerBtn.textContent = answerVisible ? "✨ Next" : "✨ Show Answer";
   }
 }
 
 function speak(text, lang) {
-  if (!("speechSynthesis" in window) || !text) return;
+  if (!text || !("speechSynthesis" in window)) return;
 
-  stopSpeech();
+  speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
-  const preferences = LANGUAGES[lang]?.speech || [];
+  const preferred = languageVoices[lang] || [];
+  const voices = speechSynthesis.getVoices();
 
-  const voices = window.speechSynthesis.getVoices();
-  let selectedVoice = null;
-
-  for (const preferred of preferences) {
-    selectedVoice = voices.find(voice =>
-      voice.lang.toLowerCase() === preferred.toLowerCase()
-    );
-    if (selectedVoice) break;
+  let voice = null;
+  for (const prefix of preferred) {
+    voice = voices.find(v => v.lang.toLowerCase() === prefix.toLowerCase());
+    if (voice) break;
+    voice = voices.find(v => v.lang.toLowerCase().startsWith(prefix.toLowerCase()));
+    if (voice) break;
   }
 
-  if (!selectedVoice && preferences.length > 0) {
-    const prefix = preferences[preferences.length - 1].split("-")[0].toLowerCase();
-    selectedVoice = voices.find(voice =>
-      voice.lang.toLowerCase().startsWith(prefix)
-    );
+  if (voice) {
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+  } else if (preferred.length) {
+    utterance.lang = preferred[0];
   }
 
-  if (selectedVoice) {
-    utterance.voice = selectedVoice;
-    utterance.lang = selectedVoice.lang;
-  } else if (preferences.length > 0) {
-    utterance.lang = preferences[0];
-  }
-
-  window.speechSynthesis.speak(utterance);
+  speechSynthesis.speak(utterance);
 }
 
-function renderSentence() {
-  const sentence = getCurrentSentence();
-
-  answerVisible = false;
-  typingAnswerVisible = false;
-  answerArea.style.display = "none";
-  typingAnswer.style.display = "none";
-  typingInput.value = "";
-
-  if (!sentence) {
-    englishSentence.textContent = "Load sentences to begin.";
-    answerArea.textContent = "";
-    showAnswerBtn.textContent = "✨ Show Answer";
-    showAnswerBtn.disabled = true;
-    typingInput.disabled = true;
-    updateStatus();
-    return;
-  }
-
-  showAnswerBtn.disabled = false;
-  typingInput.disabled = false;
-
-  englishSentence.textContent = sentence.eng;
-  answerArea.textContent = getTranslation(sentence);
-  typingAnswer.textContent = getTranslation(sentence);
-  showAnswerBtn.textContent = "✨ Show Answer";
-
-  updateStatus();
-}
-
-function nextSentence() {
-  if (sentences.length === 0) return;
-
-  currentIndex = (currentIndex + 1) % sentences.length;
-  renderSentence();
-
-  if (currentMode === "view") {
-    revealAnswer();
-  }
-}
-
-function revealAnswer() {
-  const sentence = getCurrentSentence();
+function showAnswer() {
+  const sentence = currentSentence();
   if (!sentence) return;
 
-  answerVisible = true;
-  answerArea.style.display = "block";
-  answerArea.textContent = getTranslation(sentence);
-  showAnswerBtn.textContent = "✨ Next";
-
-  speak(getTranslation(sentence), currentLanguage);
-}
-
-function showAnswerOrNext() {
-  if (!getCurrentSentence()) return;
-
   if (!answerVisible) {
-    revealAnswer();
+    answerVisible = true;
+    render();
+
+    if (mode === "view") {
+      speak(getTranslation(sentence, currentLanguage), currentLanguage);
+    }
   } else {
     nextSentence();
   }
 }
 
-function setLanguage(lang) {
-  if (!LANGUAGES[lang]) return;
+function nextSentence() {
+  if (!inventory.length) return;
 
-  currentLanguage = lang;
+  currentIndex = (currentIndex + 1) % inventory.length;
+  answerVisible = false;
+  userInput.value = "";
+  render();
+}
 
-  document.querySelectorAll(".language-button").forEach(button => {
-    button.classList.toggle("active", button.dataset.lang === lang);
+function setMode(nextMode) {
+  mode = nextMode;
+  answerVisible = false;
+
+  document.getElementById("viewModeBtn").classList.toggle("active", mode === "view");
+  document.getElementById("typingModeBtn").classList.toggle("active", mode === "typing");
+
+  userInput.value = "";
+  render();
+}
+
+function showPage(pageId) {
+  document.querySelectorAll("#mainPage, #inventoryPage, #loadPage").forEach(page => {
+    page.classList.toggle("active", page.id === pageId);
   });
 
-  renderSentence();
-}
-
-function setMode(mode) {
-  currentMode = mode;
-  stopSpeech();
-
-  const isView = mode === "view";
-
-  document.getElementById("viewModeBtn").classList.toggle("active", isView);
-  document.getElementById("typingModeBtn").classList.toggle("active", !isView);
-
-  document.getElementById("sentenceArea").style.display = isView ? "block" : "none";
-  typingArea.style.display = isView ? "none" : "block";
-
-  renderSentence();
-}
-
-function showTypingAnswer() {
-  const sentence = getCurrentSentence();
-  if (!sentence) return;
-
-  typingAnswerVisible = !typingAnswerVisible;
-  typingAnswer.style.display = typingAnswerVisible ? "block" : "none";
-  document.getElementById("checkTypingBtn").textContent =
-    typingAnswerVisible ? "Hide Answer" : "Show Answer";
-}
-
-function nextTypingSentence() {
-  nextSentence();
-  typingInput.focus();
-}
-
-function showPage(page) {
-  stopSpeech();
-
-  mainPage.style.display = page === "main" ? "block" : "none";
-  inventoryPage.style.display = page === "inventory" ? "block" : "none";
-  loadPage.style.display = page === "load" ? "block" : "none";
-
-  if (page === "inventory") renderInventory();
+  if (pageId === "inventoryPage") renderInventory();
 }
 
 function renderInventory() {
   const list = document.getElementById("inventoryList");
   list.innerHTML = "";
 
-  if (sentences.length === 0) {
-    const empty = document.createElement("li");
-    empty.textContent = "Inventory is empty.";
-    list.appendChild(empty);
+  if (!inventory.length) {
+    list.textContent = "Inventory is empty.";
     return;
   }
 
-  sentences.forEach((sentence, index) => {
-    const item = document.createElement("li");
+  inventory.forEach((sentence, index) => {
+    const item = document.createElement("div");
     item.className = "inventory-item";
 
     const text = document.createElement("div");
-    text.textContent = `${index + 1}. ${sentence.eng}`;
+    text.textContent = `${index + 1}. ${sentence.eng || ""}`;
     item.appendChild(text);
 
-    const translation = document.createElement("div");
-    translation.style.marginTop = "6px";
-    translation.style.color = "#555";
-    translation.textContent = sentence.esp;
-    item.appendChild(translation);
+    const details = document.createElement("div");
+    details.style.color = "#666";
+    details.style.marginTop = "6px";
+    details.textContent = [
+      sentence.deu || "",
+      sentence.esp || "",
+      sentence.fra || "",
+      sentence.sve || ""
+    ].filter(Boolean).join(" | ");
+    item.appendChild(details);
 
-    const removeButton = document.createElement("button");
-    removeButton.textContent = "Remove";
-    removeButton.addEventListener("click", () => {
-      sentences.splice(index, 1);
-      if (currentIndex >= sentences.length) {
-        currentIndex = Math.max(0, sentences.length - 1);
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.addEventListener("click", () => {
+      inventory.splice(index, 1);
+      if (currentIndex >= inventory.length) {
+        currentIndex = Math.max(0, inventory.length - 1);
       }
       saveInventory();
       renderInventory();
-      renderSentence();
+      render();
     });
+    item.appendChild(removeBtn);
 
-    item.appendChild(removeButton);
     list.appendChild(item);
   });
 }
 
-function copyAllSentences() {
-  const text = sentences.map(sentence =>
-    `[eng]\n${sentence.eng}\n${sentence.deu}\n${sentence.esp}\n${sentence.fra}\n${sentence.sve}`
-  ).join("\n\n");
-
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text);
-  } else {
-    const temporary = document.createElement("textarea");
-    temporary.value = text;
-    document.body.appendChild(temporary);
-    temporary.select();
-    document.execCommand("copy");
-    temporary.remove();
-  }
-}
-
 function parseImport(text) {
-  const blocks = text.split(/(?=^\s*\[eng\]\s*$)/mi);
+  const blocks = text.split(/^\[eng\]\s*$/gim).slice(1);
   const parsed = [];
 
   for (const block of blocks) {
-    const trimmed = block.trim();
-    if (!trimmed) continue;
+    const lines = block.trim().split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+    if (!lines.length) continue;
 
-    const lines = trimmed.split(/\r?\n/).map(line => line.trim());
-    if (lines[0].toLowerCase() !== "[eng]") continue;
-
-    const values = lines.slice(1);
-    if (values.length < 1 || !values[0]) continue;
-
-    parsed.push(normalizeSentence({
-      eng: values[0],
-      deu: values[1] || "",
-      esp: values[2] || "",
-      fra: values[3] || "",
-      sve: values[4] || ""
-    }));
+    parsed.push({
+      eng: lines[0] || "",
+      deu: lines[1] || "",
+      esp: lines[2] || "",
+      fra: lines[3] || "",
+      sve: lines[4] || ""
+    });
   }
 
   return parsed;
 }
 
-document.querySelectorAll(".language-button").forEach(button => {
-  button.addEventListener("click", () => setLanguage(button.dataset.lang));
+document.querySelectorAll("[data-lang]").forEach(button => {
+  button.addEventListener("click", () => {
+    currentLanguage = button.dataset.lang;
+
+    document.querySelectorAll("[data-lang]").forEach(btn => {
+      btn.classList.toggle("active", btn === button);
+    });
+
+    answerVisible = false;
+    render();
+  });
 });
 
-showAnswerBtn.addEventListener("click", showAnswerOrNext);
+showAnswerBtn.addEventListener("click", showAnswer);
 
 document.getElementById("viewModeBtn").addEventListener("click", () => {
   setMode("view");
@@ -633,60 +509,76 @@ document.getElementById("typingModeBtn").addEventListener("click", () => {
   setMode("typing");
 });
 
-document.getElementById("checkTypingBtn").addEventListener("click", showTypingAnswer);
-document.getElementById("nextTypingBtn").addEventListener("click", nextTypingSentence);
-
-typingInput.addEventListener("keydown", event => {
+userInput.addEventListener("keydown", event => {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();
-    nextTypingSentence();
+    nextSentence();
   }
 });
 
 document.getElementById("inventoryBtn").addEventListener("click", () => {
-  showPage("inventory");
+  showPage("inventoryPage");
 });
 
 document.getElementById("loadBtn").addEventListener("click", () => {
-  document.getElementById("loadInput").value = "";
-  document.getElementById("loadMessage").textContent = "";
-  showPage("load");
+  showPage("loadPage");
 });
 
 document.getElementById("backFromInventoryBtn").addEventListener("click", () => {
-  showPage("main");
+  showPage("mainPage");
 });
 
 document.getElementById("backFromLoadBtn").addEventListener("click", () => {
-  showPage("main");
+  showPage("mainPage");
 });
 
-document.getElementById("copyAllBtn").addEventListener("click", copyAllSentences);
-
 document.getElementById("importBtn").addEventListener("click", () => {
-  const input = document.getElementById("loadInput").value;
-  const imported = parseImport(input);
-  const message = document.getElementById("loadMessage");
-
-  if (imported.length === 0) {
-    message.textContent = "No valid sentences found. Check the format and try again.";
+  const parsed = parseImport(document.getElementById("importText").value);
+  if (!parsed.length) {
+    document.getElementById("loadStatus").textContent = "No valid sentences found.";
     return;
   }
 
-  sentences.push(...imported);
+  inventory.push(...parsed);
   saveInventory();
-  currentIndex = Math.max(0, sentences.length - imported.length);
-  message.textContent = `Imported ${imported.length} sentence(s).`;
-  renderSentence();
+  currentIndex = Math.max(0, inventory.length - parsed.length);
+  answerVisible = false;
+
+  document.getElementById("loadStatus").textContent = `${parsed.length} sentences loaded.`;
+  showPage("mainPage");
+  render();
+});
+
+document.getElementById("copyAllBtn").addEventListener("click", async () => {
+  const text = inventory.map(sentence =>
+    [
+      "[eng]",
+      sentence.eng || "",
+      sentence.deu || "",
+      sentence.esp || "",
+      sentence.fra || "",
+      sentence.sve || ""
+    ].join("\n")
+  ).join("\n\n");
+
+  try {
+    await navigator.clipboard.writeText(text);
+    document.getElementById("copyAllBtn").textContent = "Copied!";
+    setTimeout(() => {
+      document.getElementById("copyAllBtn").textContent = "Copy All";
+    }, 1500);
+  } catch {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+  }
 });
 
 loadInventory();
-renderSentence();
-
-if ("speechSynthesis" in window) {
-  window.speechSynthesis.getVoices();
-  window.speechSynthesis.addEventListener("voiceschanged", () => {});
-}
+render();
 </script>
 </body>
 </html>
