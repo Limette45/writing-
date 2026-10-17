@@ -515,13 +515,7 @@ function randomItem() {
 }
 
 function updateLanguageButtons() {
-  audioToggleBtn.addEventListener("click", () => {
-  autoAudioEnabled = !autoAudioEnabled;
-  audioToggleBtn.textContent = autoAudioEnabled ? "🔊Audio: ON" : "🔇Audio: OFF";
-  audioToggleBtn.classList.toggle("active", !autoAudioEnabled);
-});
-
-document.querySelectorAll(".lang-btn").forEach(button => {
+  document.querySelectorAll(".lang-btn").forEach(button => {
     button.classList.toggle("active", button.dataset.lang === currentLanguage);
   });
 }
