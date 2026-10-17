@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,6 @@ body {
   background: #f5f5f5;
   color: #222;
 }
-
 header {
   position: sticky;
   top: 0;
@@ -24,7 +24,6 @@ header {
   background: #fff;
   border-bottom: 1px solid #ddd;
 }
-
 .header-inner {
   max-width: 800px;
   margin: 0 auto;
@@ -32,7 +31,6 @@ header {
   flex-direction: column;
   gap: 8px;
 }
-
 .language-controls,
 .page-controls {
   display: flex;
@@ -41,7 +39,6 @@ header {
   flex-wrap: wrap;
   gap: 8px;
 }
-
 button {
   min-height: 42px;
   padding: 10px 14px;
@@ -52,37 +49,30 @@ button {
   font-size: 15px;
   cursor: pointer;
 }
-
 button:hover {
   background: #f0f0f0;
 }
-
 button.active {
   background: #222;
   color: #fff;
   border-color: #222;
 }
-
 .language-controls button {
   flex: 1 1 100px;
   max-width: 150px;
 }
-
 .page-controls button {
   flex: 0 1 140px;
 }
-
 main {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
   padding: 24px 16px 40px;
 }
-
 .hidden {
   display: none !important;
 }
-
 .sentence-box {
   width: 100%;
   min-height: 220px;
@@ -97,7 +87,6 @@ main {
   border-radius: 12px;
   overflow-wrap: anywhere;
 }
-
 .english {
   width: 100%;
   font-size: 23px;
@@ -105,7 +94,6 @@ main {
   text-align: center;
   cursor: pointer;
 }
-
 .answer {
   display: none;
   width: 100%;
@@ -114,23 +102,19 @@ main {
   text-align: center;
   cursor: pointer;
 }
-
 .answer.show {
   display: block;
 }
-
 .mode-controls {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 18px;
 }
-
 .mode-controls button {
   flex: 0 1 140px;
 }
-
 .actions {
   display: flex;
   justify-content: center;
@@ -139,11 +123,9 @@ main {
   gap: 10px;
   margin-top: 18px;
 }
-
 .actions button {
   min-width: 120px;
 }
-
 textarea.load-textarea {
   display: block;
   width: 100%;
@@ -156,11 +138,9 @@ textarea.load-textarea {
   font-size: 15px;
   line-height: 1.6;
 }
-
 h2 {
   margin: 0 0 18px;
 }
-
 .inventory-item {
   margin-bottom: 12px;
   padding: 16px;
@@ -169,7 +149,6 @@ h2 {
   border-radius: 10px;
   overflow-wrap: anywhere;
 }
-
 .inventory-item pre {
   margin: 0 0 14px;
   white-space: pre-wrap;
@@ -178,31 +157,24 @@ h2 {
   font-size: 15px;
   line-height: 1.7;
 }
-
 .remove-btn {
   color: #b00020;
 }
-
 .status {
   margin-top: 14px;
   text-align: center;
   color: #666;
 }
-
 #inventoryList {
   margin-top: 20px;
 }
-
-/* Typing mode styles */
 .typing-area {
   width: 100%;
   margin-top: 18px;
 }
-
 .typing-area.hidden {
   display: none !important;
 }
-
 .typing-input {
   display: block;
   width: 100%;
@@ -216,67 +188,60 @@ h2 {
   line-height: 1.5;
   background: #fff;
 }
-
 .typing-input:focus {
   outline: none;
   border-color: #222;
 }
-
 .typing-controls {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 12px;
 }
-
 @media (max-width: 500px) {
   .language-controls,
   .page-controls {
     gap: 6px;
   }
-
   .language-controls button {
     flex: 1 1 calc(50% - 6px);
     max-width: none;
     padding: 9px 8px;
     font-size: 14px;
   }
-
   .page-controls button {
     flex: 1 1 0;
   }
-
   main {
     padding: 18px 12px 30px;
   }
-
   .sentence-box {
     min-height: 200px;
     padding: 24px 16px;
     gap: 20px;
   }
-
   .english {
     font-size: 20px;
   }
-
   .answer {
     font-size: 19px;
   }
-
   .actions {
     gap: 8px;
   }
-
   .actions button {
     flex: 1 1 130px;
   }
-
+  .mode-controls {
+    gap: 8px;
+  }
+  .mode-controls button {
+    flex: 1 1 130px;
+  }
   textarea.load-textarea {
     min-height: 350px;
     font-size: 14px;
   }
-
   .typing-input {
     font-size: 16px;
   }
@@ -287,10 +252,10 @@ h2 {
 <header>
   <div class="header-inner">
     <div class="language-controls">
-      <button class="lang-btn active" data-lang="esp">🇪🇸Español</button>
-      <button class="lang-btn" data-lang="deu">🇩🇪Deutsch</button>
-      <button class="lang-btn" data-lang="sve">🇸🇪Svenska</button>
-      <button class="lang-btn" data-lang="fra">🇫🇷Français</button>
+      <button class="lang-btn active" data-lang="esp">Español</button>
+      <button class="lang-btn" data-lang="deu">Deutsch</button>
+      <button class="lang-btn" data-lang="sve">Svenska</button>
+      <button class="lang-btn" data-lang="fra">Français</button>
     </div>
     <div class="page-controls">
       <button id="inventoryBtn">Inventory</button>
@@ -306,22 +271,20 @@ h2 {
       <div id="answerSentence" class="answer"></div>
     </div>
 
-    <!-- Mode switch below sentence box -->
-    <div class="mode-controls">
-      <button id="modeViewBtn" class="active">View Mode</button>
-      <button id="modeTypingBtn">Typing Mode</button>
-    </div>
-
     <div class="actions" id="viewActions">
       <button id="showAnswerBtn">Show Answer</button>
     </div>
 
-    <!-- Typing Mode Area -->
     <div id="typingArea" class="typing-area hidden">
       <textarea id="typingInput" class="typing-input" placeholder="Type the translation here... (Press Enter to go next)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
       <div class="typing-controls">
         <button id="toggleTypingAnswerBtn">Hide Answer</button>
       </div>
+    </div>
+
+    <div class="mode-controls">
+      <button id="modeViewBtn" class="active">View Mode</button>
+      <button id="modeTypingBtn">Typing Mode</button>
     </div>
 
     <div id="mainStatus" class="status"></div>
@@ -347,7 +310,6 @@ Det här är det coolaste jag någonsin har gjort."></textarea>
       <button id="saveBtn">Load &amp; Save</button>
       <button id="backFromLoadBtn">Back</button>
     </div>
-
     <div id="loadStatus" class="status"></div>
   </section>
 
@@ -357,7 +319,6 @@ Det här är det coolaste jag någonsin har gjort."></textarea>
       <button id="copyAllBtn">Copy All</button>
       <button id="backFromInventoryBtn">Back</button>
     </div>
-
     <div id="inventoryList"></div>
   </section>
 </main>
@@ -373,7 +334,7 @@ let currentLanguage = "esp";
 let currentItem = null;
 let answerShown = false;
 let isTypingMode = false;
-let typingHideAnswer = false; // Persistent state for hiding answer in Typing Mode
+let typingHideAnswer = false;
 
 const mainPage = document.getElementById("mainPage");
 const loadPage = document.getElementById("loadPage");
@@ -447,9 +408,7 @@ function parseInput(text) {
     const match = line.match(/^\[([a-zA-Z]+)\]$/);
 
     if (match) {
-      if (current && current.eng) {
-        result.push(current);
-      }
+      if (current && current.eng) result.push(current);
 
       current = {
         eng: "",
@@ -458,7 +417,6 @@ function parseInput(text) {
         fra: "",
         sve: ""
       };
-
       continue;
     }
 
@@ -466,15 +424,10 @@ function parseInput(text) {
 
     const missingLanguage = languages.find(lang => !current[lang]);
 
-    if (missingLanguage) {
-      current[missingLanguage] = line;
-    }
+    if (missingLanguage) current[missingLanguage] = line;
   }
 
-  if (current && current.eng) {
-    result.push(current);
-  }
-
+  if (current && current.eng) result.push(current);
   return result;
 }
 
@@ -490,9 +443,7 @@ function randomItem() {
     return;
   }
 
-  const index = Math.floor(Math.random() * inventory.length);
-  currentItem = inventory[index];
-
+  currentItem = inventory[Math.floor(Math.random() * inventory.length)];
   englishSentence.textContent = currentItem.eng;
   answerSentence.textContent = currentItem[currentLanguage] || "(No translation)";
 
@@ -514,10 +465,7 @@ function randomItem() {
 
 function updateLanguageButtons() {
   document.querySelectorAll(".lang-btn").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.lang === currentLanguage
-    );
+    button.classList.toggle("active", button.dataset.lang === currentLanguage);
   });
 }
 
@@ -542,13 +490,12 @@ function speak(text, lang) {
 
   try {
     window.speechSynthesis.cancel();
-
     const utterance = new SpeechSynthesisUtterance(text);
 
     const prefixes = {
       eng: ["en-US", "en-GB", "en"],
       deu: ["de-DE", "de"],
-      esp: ["es-ES", "es-MX", "es-US", "es"],
+      esp: ["es-MX", "es-419", "es-US", "es"],
       fra: ["fr-FR", "fr-CA", "fr"],
       sve: ["sv-SE", "sv"]
     };
@@ -557,13 +504,9 @@ function speak(text, lang) {
     const voices = window.speechSynthesis.getVoices();
 
     const voice = voices.find(v =>
-      preferred.some(prefix =>
-        v.lang.toLowerCase() === prefix.toLowerCase()
-      )
+      preferred.some(prefix => v.lang.toLowerCase() === prefix.toLowerCase())
     ) || voices.find(v =>
-      preferred.some(prefix =>
-        v.lang.toLowerCase().startsWith(prefix.toLowerCase())
-      )
+      preferred.some(prefix => v.lang.toLowerCase().startsWith(prefix.toLowerCase()))
     );
 
     if (voice) {
@@ -583,13 +526,9 @@ function showPage(page) {
   mainPage.classList.add("hidden");
   loadPage.classList.add("hidden");
   inventoryPage.classList.add("hidden");
-
   page.classList.remove("hidden");
 
-  if (page === inventoryPage) {
-    renderInventory();
-  }
-
+  if (page === inventoryPage) renderInventory();
   window.scrollTo(0, 0);
 }
 
@@ -607,21 +546,15 @@ function renderInventory() {
 
     const pre = document.createElement("pre");
     pre.textContent =
-      "[eng]\n" +
-      item.eng + "\n" +
-      item.deu + "\n" +
-      item.esp + "\n" +
-      item.fra + "\n" +
-      item.sve;
+      "[eng]\n" + item.eng + "\n" + item.deu + "\n" +
+      item.esp + "\n" + item.fra + "\n" + item.sve;
 
     const removeButton = document.createElement("button");
     removeButton.className = "remove-btn";
     removeButton.textContent = "Remove";
 
     removeButton.addEventListener("click", () => {
-      if (!window.confirm("Are you sure you want to remove this sentence?")) {
-        return;
-      }
+      if (!window.confirm("Are you sure you want to remove this sentence?")) return;
 
       const removedItem = inventory[index];
       inventory.splice(index, 1);
@@ -649,12 +582,8 @@ function renderInventory() {
 
 function getAllAsText() {
   return inventory.map(item =>
-    "[eng]\n" +
-    item.eng + "\n" +
-    item.deu + "\n" +
-    item.esp + "\n" +
-    item.fra + "\n" +
-    item.sve
+    "[eng]\n" + item.eng + "\n" + item.deu + "\n" +
+    item.esp + "\n" + item.fra + "\n" + item.sve
   ).join("\n\n");
 }
 
@@ -663,7 +592,6 @@ function setMode(typing) {
 
   modeViewBtn.classList.toggle("active", !typing);
   modeTypingBtn.classList.toggle("active", typing);
-
   viewActions.classList.toggle("hidden", typing);
   typingArea.classList.toggle("hidden", !typing);
 
@@ -686,12 +614,8 @@ function setMode(typing) {
   }
 }
 
-// Event listeners
-
 document.querySelectorAll(".lang-btn").forEach(button => {
-  button.addEventListener("click", () => {
-    switchLanguage(button.dataset.lang);
-  });
+  button.addEventListener("click", () => switchLanguage(button.dataset.lang));
 });
 
 modeViewBtn.addEventListener("click", () => setMode(false));
@@ -705,8 +629,6 @@ showAnswerBtn.addEventListener("click", () => {
     answerSentence.classList.add("show");
     answerSentence.textContent = currentItem[currentLanguage] || "(No translation)";
     showAnswerBtn.textContent = "Next";
-
-    // Auto play audio when answer is shown in View Mode
     speak(currentItem[currentLanguage], currentLanguage);
   } else {
     randomItem();
@@ -715,6 +637,7 @@ showAnswerBtn.addEventListener("click", () => {
 
 toggleTypingAnswerBtn.addEventListener("click", () => {
   typingHideAnswer = !typingHideAnswer;
+
   if (typingHideAnswer) {
     answerShown = false;
     answerSentence.classList.remove("show");
@@ -726,7 +649,7 @@ toggleTypingAnswerBtn.addEventListener("click", () => {
   }
 });
 
-typingInput.addEventListener("keydown", (e) => {
+typingInput.addEventListener("keydown", e => {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     randomItem();
@@ -743,22 +666,15 @@ answerSentence.addEventListener("click", () => {
   }
 });
 
-inventoryBtn.addEventListener("click", () => {
-  showPage(inventoryPage);
-});
+inventoryBtn.addEventListener("click", () => showPage(inventoryPage));
 
 loadBtn.addEventListener("click", () => {
   loadStatus.textContent = "";
   showPage(loadPage);
 });
 
-document.getElementById("backFromLoadBtn").addEventListener("click", () => {
-  showPage(mainPage);
-});
-
-document.getElementById("backFromInventoryBtn").addEventListener("click", () => {
-  showPage(mainPage);
-});
+document.getElementById("backFromLoadBtn").addEventListener("click", () => showPage(mainPage));
+document.getElementById("backFromInventoryBtn").addEventListener("click", () => showPage(mainPage));
 
 saveBtn.addEventListener("click", () => {
   const parsed = parseInput(loadInput.value);
@@ -793,7 +709,6 @@ copyAllBtn.addEventListener("click", async () => {
     temp.style.opacity = "0";
     document.body.appendChild(temp);
     temp.select();
-
     const copied = document.execCommand("copy");
     temp.remove();
 
@@ -809,7 +724,6 @@ copyAllBtn.addEventListener("click", async () => {
   }, 1200);
 });
 
-// Init
 loadStorage();
 updateLanguageButtons();
 randomItem();
