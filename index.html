@@ -5,680 +5,688 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Writing Practice</title>
 <style>
-  * {
-    box-sizing: border-box;
-  }
+* {
+  box-sizing: border-box;
+}
 
+body {
+  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #222;
+}
+
+button, textarea, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f7f7f7;
+  padding: 10px 14px;
+}
+
+button:hover {
+  background: #ececec;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.language-button {
+  min-width: 68px;
+}
+
+.language-button.active {
+  background: #dff6ff;
+  border-color: #6bb8d6;
+  font-weight: bold;
+}
+
+#mainPage {
+  display: block;
+}
+
+#sentenceArea {
+  margin-top: 24px;
+}
+
+#englishSentence {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  overflow-wrap: anywhere;
+}
+
+#answerArea {
+  display: none;
+  margin: 18px 0;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+#showAnswerBtn {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  min-width: 160px;
+  min-height: 58px;
+  margin: 24px auto 0;
+  padding: 14px 24px;
+  font-size: 17px;
+  font-weight: bold;
+  background: #e8f5e9;
+  border-color: #a5d6a7;
+}
+
+#showAnswerBtn:hover {
+  background: #d8eedb;
+}
+
+#typingArea {
+  display: none;
+  margin-top: 20px;
+}
+
+#typingInput {
+  width: 100%;
+  min-height: 130px;
+  padding: 12px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+#typingAnswer {
+  display: none;
+  margin-top: 14px;
+  padding: 14px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mode-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 50px;
+}
+
+.mode-button {
+  min-width: 130px;
+}
+
+.mode-button.active {
+  background: #dff6ff;
+  border-color: #6bb8d6;
+  font-weight: bold;
+}
+
+#status {
+  margin-top: 18px;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.bottom-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 36px;
+  padding-top: 16px;
+  border-top: 1px solid #ddd;
+}
+
+#inventoryPage,
+#loadPage {
+  display: none;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.page-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+#inventoryList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.inventory-item {
+  padding: 14px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.inventory-item button {
+  margin-top: 10px;
+}
+
+#loadInput {
+  width: 100%;
+  min-height: 250px;
+  padding: 12px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+#loadMessage {
+  margin-top: 12px;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 600px) {
   body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 16px;
-    background: #f5f5f5;
-    color: #222;
+    padding: 14px;
   }
 
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  }
-
-  h1 {
-    font-size: 24px;
-    margin: 0 0 20px;
-  }
-
-  button {
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: #fff;
-    color: #222;
-    padding: 10px 14px;
-    font-size: 15px;
-    touch-action: manipulation;
-  }
-
-  button:hover {
-    background: #f0f0f0;
-  }
-
-  button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .language-controls {
-    display: flex;
-    flex-wrap: wrap;
+  .header {
     gap: 8px;
-    margin-bottom: 24px;
   }
 
-  .language-btn.active {
-    background: #dff6ff;
-    border-color: #79c9e8;
-    font-weight: bold;
+  .language-button {
+    flex: 1 1 calc(50% - 8px);
   }
 
-  .page {
-    display: none;
-  }
-
-  .page.active {
-    display: block;
-  }
-
-  .english-text {
-    font-size: 22px;
-    line-height: 1.6;
-    margin: 20px 0;
-    overflow-wrap: anywhere;
-  }
-
-  .answer-text {
-    font-size: 20px;
-    line-height: 1.7;
-    margin: 20px 0;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-  }
-
-  .answer-text.hidden {
-    display: none;
-  }
-
-  .primary-btn {
-    background: #e5f5ff;
-    border-color: #8acbed;
-    font-weight: bold;
-  }
-
-  .primary-btn:hover {
-    background: #d4edfc;
+  #englishSentence {
+    font-size: 1.2rem;
   }
 
   #showAnswerBtn {
-    min-height: 58px;
-    min-width: 160px;
-    padding: 14px 24px;
-    font-size: 17px;
-  }
-
-  .action-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
-    margin-top: 20px;
-  }
-
-  .typing-area {
-    width: 100%;
-    min-height: 140px;
-    resize: vertical;
-    padding: 12px;
-    border: 1px solid #bbb;
-    border-radius: 8px;
-    font: inherit;
-    font-size: 17px;
-    line-height: 1.6;
-  }
-
-  .typing-area:focus {
-    outline: 2px solid #8acbed;
-    border-color: #8acbed;
+    min-height: 64px;
+    min-width: 180px;
+    padding: 16px 24px;
+    font-size: 18px;
   }
 
   .mode-controls {
-    display: flex;
-    flex-wrap: wrap;
+    margin-top: 56px;
     gap: 8px;
-    margin-top: 50px;
-    padding-top: 18px;
-    border-top: 1px solid #ddd;
   }
 
-  .mode-btn.active {
-    background: #e8e8e8;
-    border-color: #888;
-    font-weight: bold;
-  }
-
-  .status {
-    margin-top: 16px;
-    color: #666;
-    font-size: 14px;
+  .mode-button {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 8px;
   }
 
   .bottom-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
     margin-top: 36px;
-    padding-top: 16px;
-    border-top: 1px solid #ddd;
   }
-
-  .inventory-title {
-    font-size: 21px;
-    margin-bottom: 16px;
-  }
-
-  .inventory-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-
-  .inventory-item {
-    background: #fafafa;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 10px;
-    overflow-wrap: anywhere;
-  }
-
-  .inventory-item p {
-    margin: 0 0 8px;
-    line-height: 1.5;
-  }
-
-  .inventory-item p:last-child {
-    margin-bottom: 0;
-  }
-
-  .inventory-empty {
-    color: #777;
-    margin-top: 20px;
-  }
-
-  .load-area {
-    width: 100%;
-    min-height: 240px;
-    padding: 12px;
-    border: 1px solid #bbb;
-    border-radius: 8px;
-    font: inherit;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  .load-help {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.6;
-    margin: 12px 0;
-  }
-
-  .hidden {
-    display: none !important;
-  }
-
-  @media (max-width: 600px) {
-    body {
-      padding: 10px;
-    }
-
-    .container {
-      padding: 16px;
-    }
-
-    h1 {
-      font-size: 22px;
-    }
-
-    .english-text {
-      font-size: 20px;
-    }
-
-    .answer-text {
-      font-size: 18px;
-    }
-
-    #showAnswerBtn {
-      min-height: 64px;
-      min-width: 180px;
-      padding: 16px 24px;
-      font-size: 18px;
-    }
-
-    .mode-controls {
-      margin-top: 56px;
-    }
-
-    .action-row {
-      gap: 10px;
-    }
-  }
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>Writing Practice</h1>
 
-  <div class="language-controls" id="languageControls">
-    <button class="language-btn active" data-lang="deu">🇩🇪German</button>
-    <button class="language-btn" data-lang="esp">🇪🇸Spanish</button>
-    <button class="language-btn" data-lang="fra">🇫🇷French</button>
-    <button class="language-btn" data-lang="sve">🇸🇪Swedish</button>
-  </div>
-
-  <main id="mainPage" class="page active">
-    <div id="studyContent">
-      <div class="english-text" id="englishText">Load sentences to begin.</div>
-
-      <div id="typingSection" class="hidden">
-        <textarea
-          id="typingInput"
-          class="typing-area"
-          placeholder="Type your translation here..."
-        ></textarea>
-      </div>
-
-      <div id="answerText" class="answer-text hidden"></div>
-
-      <div class="action-row">
-        <button id="showAnswerBtn" class="primary-btn">✨ Show Answer</button>
-      </div>
-    </div>
-
-    <div class="mode-controls">
-      <button id="viewModeBtn" class="mode-btn active">View Mode</button>
-      <button id="typingModeBtn" class="mode-btn">Typing Mode</button>
-    </div>
-
-    <div class="status" id="statusText">No sentences loaded.</div>
-
-    <div class="bottom-controls">
-      <button id="inventoryBtn">Inventory</button>
-      <button id="loadBtn">Load</button>
-    </div>
-  </main>
-
-  <section id="inventoryPage" class="page">
-    <div class="inventory-title">Inventory</div>
-    <div class="inventory-actions">
-      <button id="copyAllBtn">Copy All</button>
-      <button id="backFromInventoryBtn">Back</button>
-    </div>
-    <div id="inventoryList"></div>
-  </section>
-
-  <section id="loadPage" class="page">
-    <div class="inventory-title">Load Sentences</div>
-    <p class="load-help">
-      Enter sentences in the following format. Each block starts with [eng],
-      followed by English, German, Spanish, French, and Swedish translations,
-      one per line.
-    </p>
-    <textarea
-      id="loadInput"
-      class="load-area"
-      placeholder="[eng]
-English sentence
-German translation
-Spanish translation
-French translation
-Swedish translation"
-    ></textarea>
-    <div class="action-row">
-      <button id="importBtn" class="primary-btn">Import</button>
-      <button id="backFromLoadBtn">Back</button>
-    </div>
-    <div class="status" id="loadStatus"></div>
-  </section>
+<div class="header" id="languageHeader">
+  <button class="language-button active" data-lang="esp">🇪🇸 Español</button>
+  <button class="language-button" data-lang="deu">🇩🇪 Deutsch</button>
+  <button class="language-button" data-lang="fra">🇫🇷 Français</button>
+  <button class="language-button" data-lang="sve">🇸🇪 Svenska</button>
 </div>
 
+<main id="mainPage">
+  <div id="sentenceArea">
+    <div id="englishSentence"></div>
+    <div id="answerArea"></div>
+
+    <button id="showAnswerBtn">✨ Show Answer</button>
+  </div>
+
+  <div id="typingArea">
+    <textarea id="typingInput" placeholder="Type your answer here..."></textarea>
+    <div id="typingAnswer"></div>
+    <div class="page-controls">
+      <button id="checkTypingBtn">Show Answer</button>
+      <button id="nextTypingBtn">Next</button>
+    </div>
+  </div>
+
+  <div class="mode-controls">
+    <button id="viewModeBtn" class="mode-button active">View Mode</button>
+    <button id="typingModeBtn" class="mode-button">Typing Mode</button>
+  </div>
+
+  <div id="status"></div>
+
+  <div class="bottom-controls">
+    <button id="inventoryBtn">Inventory</button>
+    <button id="loadBtn">Load</button>
+  </div>
+</main>
+
+<section id="inventoryPage">
+  <div class="page-title">Inventory</div>
+  <div class="page-controls">
+    <button id="copyAllBtn">Copy All</button>
+    <button id="backFromInventoryBtn">Back</button>
+  </div>
+  <ul id="inventoryList"></ul>
+</section>
+
+<section id="loadPage">
+  <div class="page-title">Load Sentences</div>
+  <p>Paste your sentences below using the format <code>[eng]</code>, followed by English, German, Spanish, French, and Swedish translations, each on its own line.</p>
+  <textarea id="loadInput" placeholder="[eng]&#10;English sentence&#10;German translation&#10;Spanish translation&#10;French translation&#10;Swedish translation"></textarea>
+  <div class="page-controls" style="margin-top: 14px;">
+    <button id="importBtn">Import</button>
+    <button id="backFromLoadBtn">Back</button>
+  </div>
+  <div id="loadMessage"></div>
+</section>
+
 <script>
-(() => {
-  const STORAGE_KEY = "sentenceWritingPracticeInventory_v1_7f39c2a8";
+const STORAGE_KEY = "sentenceWritingPracticeInventory_v1_7f39c2a8";
 
-  const languageNames = {
-    deu: "German",
-    esp: "Spanish",
-    fra: "French",
-    sve: "Swedish"
+const LANGUAGES = {
+  esp: { index: 2, name: "Spanish", speech: ["es-MX", "es-419", "es-US", "es"] },
+  deu: { index: 1, name: "German", speech: ["de-DE", "de"] },
+  fra: { index: 3, name: "French", speech: ["fr-FR", "fr"] },
+  sve: { index: 4, name: "Swedish", speech: ["sv-SE", "sv"] }
+};
+
+let sentences = [];
+let currentIndex = 0;
+let currentLanguage = "esp";
+let currentMode = "view";
+let answerVisible = false;
+let typingAnswerVisible = false;
+
+const englishSentence = document.getElementById("englishSentence");
+const answerArea = document.getElementById("answerArea");
+const showAnswerBtn = document.getElementById("showAnswerBtn");
+const typingArea = document.getElementById("typingArea");
+const typingInput = document.getElementById("typingInput");
+const typingAnswer = document.getElementById("typingAnswer");
+const status = document.getElementById("status");
+
+const mainPage = document.getElementById("mainPage");
+const inventoryPage = document.getElementById("inventoryPage");
+const loadPage = document.getElementById("loadPage");
+
+function loadInventory() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    sentences = saved ? JSON.parse(saved) : [];
+    if (!Array.isArray(sentences)) sentences = [];
+  } catch {
+    sentences = [];
+  }
+}
+
+function saveInventory() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(sentences));
+}
+
+function normalizeSentence(item) {
+  const result = {
+    eng: String(item.eng || "").trim(),
+    deu: String(item.deu || "").trim(),
+    esp: String(item.esp || "").trim(),
+    fra: String(item.fra || "").trim(),
+    sve: String(item.sve || "").trim()
   };
+  return result;
+}
 
-  const languageCodes = {
-    deu: ["de-DE"],
-    esp: ["es-MX", "es-419", "es-US", "es"],
-    fra: ["fr-FR"],
-    sve: ["sv-SE"]
-  };
+function getCurrentSentence() {
+  return sentences[currentIndex] || null;
+}
 
-  let inventory = [];
-  let currentIndex = 0;
-  let selectedLanguage = "deu";
-  let mode = "view";
-  let answerVisible = false;
-  let typingAnswerVisible = false;
-  let currentPage = "main";
+function getTranslation(sentence) {
+  if (!sentence) return "";
+  return sentence[currentLanguage] || "";
+}
 
-  const $ = id => document.getElementById(id);
-
-  const englishText = $("englishText");
-  const answerText = $("answerText");
-  const typingInput = $("typingInput");
-  const showAnswerBtn = $("showAnswerBtn");
-  const statusText = $("statusText");
-  const typingSection = $("typingSection");
-
-  function loadInventory() {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      inventory = stored ? JSON.parse(stored) : [];
-      if (!Array.isArray(inventory)) inventory = [];
-    } catch {
-      inventory = [];
-    }
+function updateStatus() {
+  if (sentences.length === 0) {
+    status.textContent = "No sentences loaded.";
+  } else {
+    status.textContent = `${currentIndex + 1} / ${sentences.length}`;
   }
+}
 
-  function saveInventory() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory));
-  }
-
-  function showPage(pageName) {
-    currentPage = pageName;
-
-    $("mainPage").classList.toggle("active", pageName === "main");
-    $("inventoryPage").classList.toggle("active", pageName === "inventory");
-    $("loadPage").classList.toggle("active", pageName === "load");
-
-    if (pageName === "inventory") renderInventory();
-  }
-
-  function getTranslation(item, lang = selectedLanguage) {
-    if (!item) return "";
-    return item[lang] || "";
-  }
-
-  function speak(text, lang) {
-    if (!text || !("speechSynthesis" in window)) return;
-
+function stopSpeech() {
+  if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
+  }
+}
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    const preferredCodes = languageCodes[lang] || [];
+function speak(text, lang) {
+  if (!("speechSynthesis" in window) || !text) return;
 
-    const voices = window.speechSynthesis.getVoices();
-    let voice = null;
+  stopSpeech();
 
-    for (const code of preferredCodes) {
-      voice = voices.find(v => v.lang.toLowerCase() === code.toLowerCase());
-      if (voice) break;
-    }
+  const utterance = new SpeechSynthesisUtterance(text);
+  const preferences = LANGUAGES[lang]?.speech || [];
 
-    if (!voice && lang === "esp") {
-      voice = voices.find(v => /^es-(MX|419|US)/i.test(v.lang));
-    }
+  const voices = window.speechSynthesis.getVoices();
+  let selectedVoice = null;
 
-    if (!voice) {
-      const prefix = {
-        deu: "de",
-        esp: "es",
-        fra: "fr",
-        sve: "sv"
-      }[lang];
-
-      voice = voices.find(v => v.lang.toLowerCase().startsWith(prefix));
-    }
-
-    if (voice) utterance.voice = voice;
-    utterance.lang = voice ? voice.lang : (preferredCodes[0] || "en-US");
-    window.speechSynthesis.speak(utterance);
+  for (const preferred of preferences) {
+    selectedVoice = voices.find(voice =>
+      voice.lang.toLowerCase() === preferred.toLowerCase()
+    );
+    if (selectedVoice) break;
   }
 
-  function renderStudy() {
-    const item = inventory[currentIndex];
-
-    if (!item) {
-      englishText.textContent = "No sentences loaded. Select Load to import sentences.";
-      answerText.textContent = "";
-      answerText.classList.add("hidden");
-      typingInput.value = "";
-      showAnswerBtn.textContent = "✨ Show Answer";
-      showAnswerBtn.disabled = true;
-      statusText.textContent = "No sentences loaded.";
-      return;
-    }
-
-    showAnswerBtn.disabled = false;
-    englishText.textContent = item.eng || "";
-    answerText.textContent = getTranslation(item);
-    typingInput.value = "";
-
-    answerVisible = false;
-    typingAnswerVisible = false;
-    answerText.classList.add("hidden");
-
-    if (mode === "view") {
-      typingSection.classList.add("hidden");
-      englishText.classList.remove("hidden");
-      showAnswerBtn.textContent = "✨ Show Answer";
-    } else {
-      typingSection.classList.remove("hidden");
-      englishText.classList.remove("hidden");
-      showAnswerBtn.textContent = "✨ Show Answer";
-    }
-
-    statusText.textContent =
-      `Sentence ${currentIndex + 1} of ${inventory.length} · ${languageNames[selectedLanguage]}`;
+  if (!selectedVoice && preferences.length > 0) {
+    const prefix = preferences[preferences.length - 1].split("-")[0].toLowerCase();
+    selectedVoice = voices.find(voice =>
+      voice.lang.toLowerCase().startsWith(prefix)
+    );
   }
 
-  function showAnswer() {
-    const item = inventory[currentIndex];
-    if (!item) return;
+  if (selectedVoice) {
+    utterance.voice = selectedVoice;
+    utterance.lang = selectedVoice.lang;
+  } else if (preferences.length > 0) {
+    utterance.lang = preferences[0];
+  }
 
-    if (mode === "view") {
-      if (!answerVisible) {
-        answerVisible = true;
-        answerText.classList.remove("hidden");
-        showAnswerBtn.textContent = "✨ Next";
-        speak(getTranslation(item), selectedLanguage);
-      } else {
-        nextSentence();
+  window.speechSynthesis.speak(utterance);
+}
+
+function renderSentence() {
+  const sentence = getCurrentSentence();
+
+  answerVisible = false;
+  typingAnswerVisible = false;
+  answerArea.style.display = "none";
+  typingAnswer.style.display = "none";
+  typingInput.value = "";
+
+  if (!sentence) {
+    englishSentence.textContent = "Load sentences to begin.";
+    answerArea.textContent = "";
+    showAnswerBtn.textContent = "✨ Show Answer";
+    showAnswerBtn.disabled = true;
+    typingInput.disabled = true;
+    updateStatus();
+    return;
+  }
+
+  showAnswerBtn.disabled = false;
+  typingInput.disabled = false;
+
+  englishSentence.textContent = sentence.eng;
+  answerArea.textContent = getTranslation(sentence);
+  typingAnswer.textContent = getTranslation(sentence);
+  showAnswerBtn.textContent = "✨ Show Answer";
+
+  updateStatus();
+}
+
+function nextSentence() {
+  if (sentences.length === 0) return;
+
+  currentIndex = (currentIndex + 1) % sentences.length;
+  renderSentence();
+
+  if (currentMode === "view") {
+    revealAnswer();
+  }
+}
+
+function revealAnswer() {
+  const sentence = getCurrentSentence();
+  if (!sentence) return;
+
+  answerVisible = true;
+  answerArea.style.display = "block";
+  answerArea.textContent = getTranslation(sentence);
+  showAnswerBtn.textContent = "✨ Next";
+
+  speak(getTranslation(sentence), currentLanguage);
+}
+
+function showAnswerOrNext() {
+  if (!getCurrentSentence()) return;
+
+  if (!answerVisible) {
+    revealAnswer();
+  } else {
+    nextSentence();
+  }
+}
+
+function setLanguage(lang) {
+  if (!LANGUAGES[lang]) return;
+
+  currentLanguage = lang;
+
+  document.querySelectorAll(".language-button").forEach(button => {
+    button.classList.toggle("active", button.dataset.lang === lang);
+  });
+
+  renderSentence();
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  stopSpeech();
+
+  const isView = mode === "view";
+
+  document.getElementById("viewModeBtn").classList.toggle("active", isView);
+  document.getElementById("typingModeBtn").classList.toggle("active", !isView);
+
+  document.getElementById("sentenceArea").style.display = isView ? "block" : "none";
+  typingArea.style.display = isView ? "none" : "block";
+
+  renderSentence();
+}
+
+function showTypingAnswer() {
+  const sentence = getCurrentSentence();
+  if (!sentence) return;
+
+  typingAnswerVisible = !typingAnswerVisible;
+  typingAnswer.style.display = typingAnswerVisible ? "block" : "none";
+  document.getElementById("checkTypingBtn").textContent =
+    typingAnswerVisible ? "Hide Answer" : "Show Answer";
+}
+
+function nextTypingSentence() {
+  nextSentence();
+  typingInput.focus();
+}
+
+function showPage(page) {
+  stopSpeech();
+
+  mainPage.style.display = page === "main" ? "block" : "none";
+  inventoryPage.style.display = page === "inventory" ? "block" : "none";
+  loadPage.style.display = page === "load" ? "block" : "none";
+
+  if (page === "inventory") renderInventory();
+}
+
+function renderInventory() {
+  const list = document.getElementById("inventoryList");
+  list.innerHTML = "";
+
+  if (sentences.length === 0) {
+    const empty = document.createElement("li");
+    empty.textContent = "Inventory is empty.";
+    list.appendChild(empty);
+    return;
+  }
+
+  sentences.forEach((sentence, index) => {
+    const item = document.createElement("li");
+    item.className = "inventory-item";
+
+    const text = document.createElement("div");
+    text.textContent = `${index + 1}. ${sentence.eng}`;
+    item.appendChild(text);
+
+    const translation = document.createElement("div");
+    translation.style.marginTop = "6px";
+    translation.style.color = "#555";
+    translation.textContent = sentence.esp;
+    item.appendChild(translation);
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", () => {
+      sentences.splice(index, 1);
+      if (currentIndex >= sentences.length) {
+        currentIndex = Math.max(0, sentences.length - 1);
       }
-    } else {
-      if (!typingAnswerVisible) {
-        typingAnswerVisible = true;
-        answerText.classList.remove("hidden");
-        showAnswerBtn.textContent = "✨ Next";
-        speak(getTranslation(item), selectedLanguage);
-      } else {
-        nextSentence();
-      }
-    }
-  }
-
-  function nextSentence() {
-    if (!inventory.length) return;
-
-    currentIndex = (currentIndex + 1) % inventory.length;
-    renderStudy();
-  }
-
-  function setMode(newMode) {
-    mode = newMode;
-
-    $("viewModeBtn").classList.toggle("active", mode === "view");
-    $("typingModeBtn").classList.toggle("active", mode === "typing");
-
-    renderStudy();
-  }
-
-  function setLanguage(lang) {
-    selectedLanguage = lang;
-
-    document.querySelectorAll(".language-btn").forEach(button => {
-      button.classList.toggle("active", button.dataset.lang === lang);
+      saveInventory();
+      renderInventory();
+      renderSentence();
     });
 
-    renderStudy();
+    item.appendChild(removeButton);
+    list.appendChild(item);
+  });
+}
+
+function copyAllSentences() {
+  const text = sentences.map(sentence =>
+    `[eng]\n${sentence.eng}\n${sentence.deu}\n${sentence.esp}\n${sentence.fra}\n${sentence.sve}`
+  ).join("\n\n");
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text);
+  } else {
+    const temporary = document.createElement("textarea");
+    temporary.value = text;
+    document.body.appendChild(temporary);
+    temporary.select();
+    document.execCommand("copy");
+    temporary.remove();
+  }
+}
+
+function parseImport(text) {
+  const blocks = text.split(/(?=^\s*\[eng\]\s*$)/mi);
+  const parsed = [];
+
+  for (const block of blocks) {
+    const trimmed = block.trim();
+    if (!trimmed) continue;
+
+    const lines = trimmed.split(/\r?\n/).map(line => line.trim());
+    if (lines[0].toLowerCase() !== "[eng]") continue;
+
+    const values = lines.slice(1);
+    if (values.length < 1 || !values[0]) continue;
+
+    parsed.push(normalizeSentence({
+      eng: values[0],
+      deu: values[1] || "",
+      esp: values[2] || "",
+      fra: values[3] || "",
+      sve: values[4] || ""
+    }));
   }
 
-  function parseInput(rawText) {
-    const lines = rawText.replace(/\r/g, "").split("\n");
-    const blocks = [];
-    let currentBlock = [];
+  return parsed;
+}
 
-    for (const line of lines) {
-      if (line.trim().toLowerCase() === "[eng]") {
-        if (currentBlock.length) blocks.push(currentBlock);
-        currentBlock = [];
-      } else if (currentBlock.length || line.trim()) {
-        currentBlock.push(line.trim());
-      }
-    }
+document.querySelectorAll(".language-button").forEach(button => {
+  button.addEventListener("click", () => setLanguage(button.dataset.lang));
+});
 
-    if (currentBlock.length) blocks.push(currentBlock);
+showAnswerBtn.addEventListener("click", showAnswerOrNext);
 
-    return blocks
-      .filter(block => block.some(line => line))
-      .map(block => ({
-        eng: block[0] || "",
-        deu: block[1] || "",
-        esp: block[2] || "",
-        fra: block[3] || "",
-        sve: block[4] || ""
-      }))
-      .filter(item => item.eng);
+document.getElementById("viewModeBtn").addEventListener("click", () => {
+  setMode("view");
+});
+
+document.getElementById("typingModeBtn").addEventListener("click", () => {
+  setMode("typing");
+});
+
+document.getElementById("checkTypingBtn").addEventListener("click", showTypingAnswer);
+document.getElementById("nextTypingBtn").addEventListener("click", nextTypingSentence);
+
+typingInput.addEventListener("keydown", event => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    nextTypingSentence();
+  }
+});
+
+document.getElementById("inventoryBtn").addEventListener("click", () => {
+  showPage("inventory");
+});
+
+document.getElementById("loadBtn").addEventListener("click", () => {
+  document.getElementById("loadInput").value = "";
+  document.getElementById("loadMessage").textContent = "";
+  showPage("load");
+});
+
+document.getElementById("backFromInventoryBtn").addEventListener("click", () => {
+  showPage("main");
+});
+
+document.getElementById("backFromLoadBtn").addEventListener("click", () => {
+  showPage("main");
+});
+
+document.getElementById("copyAllBtn").addEventListener("click", copyAllSentences);
+
+document.getElementById("importBtn").addEventListener("click", () => {
+  const input = document.getElementById("loadInput").value;
+  const imported = parseImport(input);
+  const message = document.getElementById("loadMessage");
+
+  if (imported.length === 0) {
+    message.textContent = "No valid sentences found. Check the format and try again.";
+    return;
   }
 
-  function renderInventory() {
-    const list = $("inventoryList");
-    list.innerHTML = "";
+  sentences.push(...imported);
+  saveInventory();
+  currentIndex = Math.max(0, sentences.length - imported.length);
+  message.textContent = `Imported ${imported.length} sentence(s).`;
+  renderSentence();
+});
 
-    if (!inventory.length) {
-      const empty = document.createElement("p");
-      empty.className = "inventory-empty";
-      empty.textContent = "Inventory is empty.";
-      list.appendChild(empty);
-      return;
-    }
+loadInventory();
+renderSentence();
 
-    inventory.forEach((item, index) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "inventory-item";
-
-      const languages = [
-        ["English", item.eng],
-        ["German", item.deu],
-        ["Spanish", item.esp],
-        ["French", item.fra],
-        ["Swedish", item.sve]
-      ];
-
-      languages.forEach(([label, value]) => {
-        if (!value) return;
-        const p = document.createElement("p");
-        const strong = document.createElement("strong");
-        strong.textContent = `${label}: `;
-        p.appendChild(strong);
-        p.appendChild(document.createTextNode(value));
-        wrapper.appendChild(p);
-      });
-
-      const removeBtn = document.createElement("button");
-      removeBtn.textContent = "Remove";
-      removeBtn.addEventListener("click", () => {
-        inventory.splice(index, 1);
-        saveInventory();
-
-        if (currentIndex >= inventory.length) {
-          currentIndex = Math.max(0, inventory.length - 1);
-        }
-
-        renderInventory();
-        renderStudy();
-      });
-
-      wrapper.appendChild(removeBtn);
-      list.appendChild(wrapper);
-    });
-  }
-
-  document.querySelectorAll(".language-btn").forEach(button => {
-    button.addEventListener("click", () => setLanguage(button.dataset.lang));
-  });
-
-  showAnswerBtn.addEventListener("click", showAnswer);
-
-  $("viewModeBtn").addEventListener("click", () => setMode("view"));
-  $("typingModeBtn").addEventListener("click", () => setMode("typing"));
-
-  typingInput.addEventListener("keydown", event => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      nextSentence();
-    }
-  });
-
-  $("inventoryBtn").addEventListener("click", () => showPage("inventory"));
-  $("loadBtn").addEventListener("click", () => {
-    $("loadStatus").textContent = "";
-    showPage("load");
-  });
-
-  $("backFromInventoryBtn").addEventListener("click", () => showPage("main"));
-  $("backFromLoadBtn").addEventListener("click", () => showPage("main"));
-
-  $("importBtn").addEventListener("click", () => {
-    const imported = parseInput($("loadInput").value);
-
-    if (!imported.length) {
-      $("loadStatus").textContent = "No valid sentences found.";
-      return;
-    }
-
-    inventory = inventory.concat(imported);
-    saveInventory();
-    currentIndex = Math.max(0, inventory.length - imported.length);
-    $("loadStatus").textContent = `Imported ${imported.length} sentence(s).`;
-    renderStudy();
-  });
-
-  $("copyAllBtn").addEventListener("click", async () => {
-    const output = inventory.map(item =>
-      [
-        "[eng]",
-        item.eng || "",
-        item.deu || "",
-        item.esp || "",
-        item.fra || "",
-        item.sve || ""
-      ].join("\n")
-    ).join("\n\n");
-
-    try {
-      await navigator.clipboard.writeText(output);
-      $("copyAllBtn").textContent = "Copied!";
-      setTimeout(() => {
-        $("copyAllBtn").textContent = "Copy All";
-      }, 1500);
-    } catch {
-      const temporary = document.createElement("textarea");
-      temporary.value = output;
-      document.body.appendChild(temporary);
-      temporary.select();
-      document.execCommand("copy");
-      temporary.remove();
-      $("copyAllBtn").textContent = "Copied!";
-      setTimeout(() => {
-        $("copyAllBtn").textContent = "Copy All";
-      }, 1500);
-    }
-  });
-
-  loadInventory();
-  renderStudy();
-})();
+if ("speechSynthesis" in window) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.addEventListener("voiceschanged", () => {});
+}
 </script>
 </body>
 </html>
