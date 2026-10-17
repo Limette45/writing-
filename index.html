@@ -357,11 +357,12 @@ Det här är det coolaste jag någonsin har gjort."></textarea>
 
   <section id="inventoryPage" class="hidden">
     <h2>Inventory</h2>
-    <div class="actions" style="justify-content:flex-start; margin-top:0;">
-      <div id="inventoryCount" style="align-self:center; margin-right:auto;">0 sentences</div>
-    <br>
-      <button id="copyAllBtn">Copy All</button>
-      <button id="backFromInventoryBtn">Back</button>
+    <div class="actions" style="display:flex; align-items:center; margin-top:0;">
+      <div id="inventoryCount" style="margin-right:auto;">0 sentences</div>
+      <div style="display:flex; gap:8px;">
+        <button id="copyAllBtn">Copy All</button>
+        <button id="backFromInventoryBtn">Back</button>
+      </div>
     </div>
     <div id="inventoryList"></div>
   </section>
