@@ -5,580 +5,757 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Writing Practice</title>
 <style>
-* { box-sizing: border-box; }
-
+* {
+  box-sizing: border-box;
+}
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 16px;
+  font-family: Arial, sans-serif;
   background: #f5f5f5;
   color: #222;
 }
-
-.container {
-  max-width: 760px;
-  margin: 0 auto;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-}
-
 header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+.header-inner {
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.language-controls,
+.page-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 20px;
 }
-
 button {
-  cursor: pointer;
+  min-height: 42px;
+  padding: 10px 14px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 10px 14px;
-  background: #f7f7f7;
+  background: #fff;
   color: #222;
   font-size: 15px;
+  cursor: pointer;
 }
-
 button:hover {
-  background: #eaeaea;
+  background: #f0f0f0;
 }
-
 button.active {
-  background: #dff6ff;
-  border-color: #6bbbd5;
+  background: #222;
+  color: #fff;
+  border-color: #222;
 }
-
-.language-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.language-controls button {
+  flex: 1 1 100px;
+  max-width: 150px;
+}
+.page-controls button {
+  flex: 0 1 140px;
+}
+main {
   width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
 }
-
-.language-buttons button {
-  flex: 1;
-  min-width: 100px;
+.hidden {
+  display: none !important;
 }
-
-#mainPage,
-#inventoryPage,
-#loadPage {
+.sentence-box {
+  width: 100%;
+  min-height: 220px;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+.english {
+  width: 100%;
+  font-size: 23px;
+  line-height: 1.6;
+  text-align: center;
+  cursor: pointer;
+}
+.answer {
   display: none;
+  width: 100%;
+  font-size: 21px;
+  line-height: 1.6;
+  text-align: center;
+  cursor: pointer;
 }
-
-#mainPage.active,
-#inventoryPage.active,
-#loadPage.active {
+.answer.show {
   display: block;
 }
-
-.english {
-  font-size: 22px;
-  line-height: 1.5;
-  margin: 24px 0;
-  overflow-wrap: anywhere;
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
 }
-
-.answer {
-  font-size: 20px;
-  line-height: 1.6;
-  margin: 20px 0;
-  padding: 14px;
-  background: #f0f8ff;
-  border-radius: 8px;
-  overflow-wrap: anywhere;
+.actions button {
+  min-width: 120px;
 }
-
-textarea {
-  width: 100%;
-  min-height: 120px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 18px;
-  resize: vertical;
-}
-
-.main-actions {
-  margin-top: 20px;
-}
-
 #showAnswerBtn {
   min-height: 58px;
   padding: 14px 24px;
   min-width: 160px;
   font-size: 17px;
-  font-weight: bold;
 }
-
 .mode-controls {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   margin-top: 50px;
-  flex-wrap: wrap;
 }
-
 .mode-controls button {
-  min-width: 130px;
+  flex: 0 1 140px;
 }
-
-.bottom-controls {
+textarea.load-textarea {
+  display: block;
+  width: 100%;
+  min-height: 400px;
+  padding: 14px;
+  resize: vertical;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 15px;
+  line-height: 1.6;
+}
+h2 {
+  margin: 0 0 18px;
+}
+.inventory-item {
+  margin-bottom: 12px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+.inventory-item pre {
+  margin: 0 0 14px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.remove-btn {
+  color: #b00020;
+}
+.status {
+  margin-top: 14px;
+  text-align: center;
+  color: #666;
+}
+#inventoryList {
+  margin-top: 20px;
+}
+.typing-area {
+  width: 100%;
+  margin-top: 18px;
+}
+.typing-area.hidden {
+  display: none !important;
+}
+.typing-input {
+  display: block;
+  width: 100%;
+  min-height: 100px;
+  padding: 14px;
+  resize: vertical;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  background: #fff;
+}
+.typing-input:focus {
+  outline: none;
+  border-color: #222;
+}
+.typing-controls {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
   gap: 10px;
+  margin-top: 12px;
+}
+.bottom-controls {
   margin-top: 36px;
   padding-top: 16px;
   border-top: 1px solid #ddd;
 }
-
-.status {
-  color: #666;
-  margin-top: 12px;
-  font-size: 14px;
+.bottom-controls .page-controls button {
+  flex: 0 1 140px;
 }
-
-.inventory-item {
-  border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  overflow-wrap: anywhere;
-}
-
-.inventory-item button {
-  margin-top: 8px;
-}
-
-.page-title {
-  font-size: 22px;
-  margin-bottom: 16px;
-}
-
-textarea#importText {
-  min-height: 220px;
-}
-
-.page-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-@media (max-width: 480px) {
-  body {
-    padding: 8px;
+@media (max-width: 500px) {
+  .language-controls,
+  .page-controls {
+    gap: 6px;
   }
-
-  .container {
-    padding: 14px;
+  .language-controls button {
+    flex: 1 1 calc(50% - 6px);
+    max-width: none;
+    padding: 9px 8px;
+    font-size: 14px;
   }
-
+  .page-controls button {
+    flex: 1 1 0;
+  }
+  main {
+    padding: 18px 12px 30px;
+  }
+  .sentence-box {
+    min-height: 200px;
+    padding: 24px 16px;
+    gap: 20px;
+  }
   .english {
     font-size: 20px;
   }
-
   .answer {
-    font-size: 18px;
+    font-size: 19px;
   }
-
+  .actions {
+    gap: 8px;
+  }
+  .actions button {
+    flex: 1 1 130px;
+  }
   #showAnswerBtn {
     min-height: 64px;
     min-width: 180px;
     padding: 16px 24px;
     font-size: 18px;
   }
-
   .mode-controls {
+    gap: 8px;
     margin-top: 56px;
   }
-
   .mode-controls button {
-    flex: 1;
+    flex: 1 1 130px;
+  }
+  .bottom-controls {
+    margin-top: 36px;
+  }
+  .bottom-controls .page-controls button {
+    flex: 1 1 0;
+  }
+  textarea.load-textarea {
+    min-height: 350px;
+    font-size: 14px;
+  }
+  .typing-input {
+    font-size: 16px;
   }
 }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="language-buttons">
-      <button class="active" data-lang="esp">🇪🇸 Español</button>
-      <button data-lang="deu">🇩🇪 Deutsch</button>
-      <button data-lang="sve">🇸🇪 Svenska</button>
-      <button data-lang="fra">🇫🇷 Français</button>
+<header>
+  <div class="header-inner">
+    <div class="language-controls">
+      <button class="lang-btn active" data-lang="esp">🇪🇸Español</button>
+      <button class="lang-btn" data-lang="deu">🇩🇪Deutsch</button>
+      <button class="lang-btn" data-lang="sve">🇸🇪Svenska</button>
+      <button class="lang-btn" data-lang="fra">🇫🇷Français</button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <section id="mainPage" class="active">
-    <div id="englishText" class="english"></div>
-
-    <div id="typingArea" style="display:none;">
-      <textarea id="userInput" placeholder="Type your sentence here..."></textarea>
+<main>
+  <section id="mainPage">
+    <div class="sentence-box">
+      <div id="englishSentence" class="english"></div>
+      <div id="answerSentence" class="answer"></div>
     </div>
 
-    <div id="answerArea" class="answer" style="display:none;"></div>
+    <div class="actions" id="viewActions">
+      <button id="showAnswerBtn">✨Show Answer</button>
+    </div>
 
-    <div class="main-actions">
-      <button id="showAnswerBtn">✨ Show Answer</button>
+    <div id="typingArea" class="typing-area hidden">
+      <textarea id="typingInput" class="typing-input" placeholder="Type the translation here... (Press Enter to go next)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+      <div class="typing-controls">
+        <button id="toggleTypingAnswerBtn">Hide Answer</button>
+      </div>
     </div>
 
     <div class="mode-controls">
-      <button id="viewModeBtn" class="active">View Mode</button>
-      <button id="typingModeBtn">Typing Mode</button>
+      <button id="modeViewBtn" class="active">View Mode</button>
+      <button id="modeTypingBtn">Typing Mode</button>
     </div>
 
-    <div id="status" class="status"></div>
+    <div id="mainStatus" class="status"></div>
 
     <div class="bottom-controls">
-      <button id="inventoryBtn">Inventory</button>
-      <button id="loadBtn">Load</button>
+      <div class="page-controls">
+        <button id="inventoryBtn">Inventory</button>
+        <button id="loadBtn">Load</button>
+      </div>
     </div>
   </section>
 
-  <section id="inventoryPage">
-    <div class="page-title">Inventory</div>
-    <div id="inventoryList"></div>
-    <div class="page-actions">
-      <button id="copyAllBtn">Copy All</button>
-      <button id="backFromInventoryBtn">Back</button>
-    </div>
-  </section>
+  <section id="loadPage" class="hidden">
+    <h2>Load Sentences</h2>
+    <textarea id="loadInput" class="load-textarea" placeholder="[eng]
+This one is the same as this.
+Das hier ist dasselbe wie das hier.
+Esto es lo mismo que esto.
+C'est la même chose que ça.
+Det här är samma sak som det här.
 
-  <section id="loadPage">
-    <div class="page-title">Load Sentences</div>
-    <p>Paste your sentences below.</p>
-    <textarea id="importText" placeholder="[eng]
-English sentence
-German translation
-Spanish translation
-French translation
-Swedish translation"></textarea>
-    <div class="page-actions">
-      <button id="importBtn">Load Sentences</button>
+[eng]
+This is the coolest thing I've ever done.
+Das ist das Coolste, was ich je gemacht habe.
+Esto es lo más genial que he hecho.
+C'est la chose la plus cool que j'aie jamais faite.
+Det här är det coolaste jag någonsin har gjort."></textarea>
+
+    <div class="actions">
+      <button id="saveBtn">Load &amp; Save</button>
       <button id="backFromLoadBtn">Back</button>
     </div>
     <div id="loadStatus" class="status"></div>
   </section>
-</div>
+
+  <section id="inventoryPage" class="hidden">
+    <h2>Inventory</h2>
+    <div class="actions" style="justify-content:flex-start; margin-top:0;">
+      <button id="copyAllBtn">Copy All</button>
+      <button id="backFromInventoryBtn">Back</button>
+    </div>
+    <div id="inventoryList"></div>
+  </section>
+</main>
 
 <script>
+"use strict";
+
 const STORAGE_KEY = "sentenceWritingPracticeInventory_v1_7f39c2a8";
-
-const languageNames = {
-  esp: "Spanish",
-  deu: "German",
-  sve: "Swedish",
-  fra: "French"
-};
-
-const languageVoices = {
-  esp: ["es-MX", "es-419", "es-US", "es"],
-  deu: ["de-DE", "de"],
-  sve: ["sv-SE", "sv"],
-  fra: ["fr-FR", "fr"]
-};
+const languages = ["eng", "deu", "esp", "fra", "sve"];
 
 let inventory = [];
-let currentIndex = 0;
 let currentLanguage = "esp";
-let mode = "view";
-let answerVisible = false;
+let currentItem = null;
+let answerShown = false;
+let isTypingMode = false;
+let typingHideAnswer = false;
 
-const englishText = document.getElementById("englishText");
-const typingArea = document.getElementById("typingArea");
-const userInput = document.getElementById("userInput");
-const answerArea = document.getElementById("answerArea");
+const mainPage = document.getElementById("mainPage");
+const loadPage = document.getElementById("loadPage");
+const inventoryPage = document.getElementById("inventoryPage");
+
+const englishSentence = document.getElementById("englishSentence");
+const answerSentence = document.getElementById("answerSentence");
+
 const showAnswerBtn = document.getElementById("showAnswerBtn");
-const status = document.getElementById("status");
+const inventoryBtn = document.getElementById("inventoryBtn");
+const loadBtn = document.getElementById("loadBtn");
 
-function loadInventory() {
+const loadInput = document.getElementById("loadInput");
+const saveBtn = document.getElementById("saveBtn");
+
+const inventoryList = document.getElementById("inventoryList");
+const copyAllBtn = document.getElementById("copyAllBtn");
+
+const mainStatus = document.getElementById("mainStatus");
+const loadStatus = document.getElementById("loadStatus");
+
+const modeViewBtn = document.getElementById("modeViewBtn");
+const modeTypingBtn = document.getElementById("modeTypingBtn");
+const viewActions = document.getElementById("viewActions");
+const typingArea = document.getElementById("typingArea");
+const typingInput = document.getElementById("typingInput");
+const toggleTypingAnswerBtn = document.getElementById("toggleTypingAnswerBtn");
+
+function loadStorage() {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    inventory = stored ? JSON.parse(stored) : [];
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const parsed = saved ? JSON.parse(saved) : [];
+
+    inventory = Array.isArray(parsed)
+      ? parsed.filter(item =>
+          item &&
+          typeof item === "object" &&
+          typeof item.eng === "string"
+        ).map(item => ({
+          eng: item.eng,
+          deu: typeof item.deu === "string" ? item.deu : "",
+          esp: typeof item.esp === "string" ? item.esp : "",
+          fra: typeof item.fra === "string" ? item.fra : "",
+          sve: typeof item.sve === "string" ? item.sve : ""
+        }))
+      : [];
   } catch {
     inventory = [];
   }
 }
 
-function saveInventory() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory));
+function saveStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
-function currentSentence() {
-  return inventory[currentIndex];
+function parseInput(text) {
+  const lines = text
+    .split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+
+  const result = [];
+  let current = null;
+
+  for (const line of lines) {
+    const match = line.match(/^\[([a-zA-Z]+)\]$/);
+
+    if (match) {
+      if (current && current.eng) result.push(current);
+
+      current = {
+        eng: "",
+        deu: "",
+        esp: "",
+        fra: "",
+        sve: ""
+      };
+      continue;
+    }
+
+    if (!current) continue;
+
+    const missingLanguage = languages.find(lang => !current[lang]);
+
+    if (missingLanguage) current[missingLanguage] = line;
+  }
+
+  if (current && current.eng) result.push(current);
+  return result;
 }
 
-function getTranslation(sentence, lang) {
-  if (!sentence) return "";
-  return sentence[lang] || "";
-}
+function randomItem() {
+  mainStatus.textContent = "";
+  typingInput.value = "";
 
-function render() {
-  const sentence = currentSentence();
-
-  if (!sentence) {
-    englishText.textContent = "No sentences loaded. Use Load to add sentences.";
-    typingArea.style.display = "none";
-    answerArea.style.display = "none";
-    showAnswerBtn.style.display = "none";
-    status.textContent = "0 sentences";
+  if (inventory.length === 0) {
+    currentItem = null;
+    englishSentence.textContent = "No sentences loaded.";
+    answerSentence.textContent = "";
+    answerSentence.classList.remove("show");
     return;
   }
 
-  showAnswerBtn.style.display = "inline-block";
-  englishText.textContent = sentence.eng || "";
-  status.textContent = `${currentIndex + 1} / ${inventory.length}`;
+  currentItem = inventory[Math.floor(Math.random() * inventory.length)];
+  englishSentence.textContent = currentItem.eng;
+  answerSentence.textContent = currentItem[currentLanguage] || "(No translation)";
 
-  if (mode === "view") {
-    typingArea.style.display = "none";
-    answerArea.style.display = answerVisible ? "block" : "none";
-    answerArea.textContent = answerVisible
-      ? getTranslation(sentence, currentLanguage)
-      : "";
-    showAnswerBtn.textContent = answerVisible ? "✨ Next" : "✨ Show Answer";
+  if (isTypingMode) {
+    if (typingHideAnswer) {
+      answerShown = false;
+      answerSentence.classList.remove("show");
+    } else {
+      answerShown = true;
+      answerSentence.classList.add("show");
+    }
+    typingInput.focus();
   } else {
-    typingArea.style.display = "block";
-    answerArea.style.display = answerVisible ? "block" : "none";
-    answerArea.textContent = answerVisible
-      ? getTranslation(sentence, currentLanguage)
-      : "";
-    showAnswerBtn.textContent = answerVisible ? "✨ Next" : "✨ Show Answer";
+    answerShown = false;
+    answerSentence.classList.remove("show");
+    showAnswerBtn.textContent = "✨Show Answer";
+  }
+}
+
+function updateLanguageButtons() {
+  document.querySelectorAll(".lang-btn").forEach(button => {
+    button.classList.toggle("active", button.dataset.lang === currentLanguage);
+  });
+}
+
+function switchLanguage(lang) {
+  if (!languages.includes(lang) || lang === "eng") return;
+
+  currentLanguage = lang;
+  updateLanguageButtons();
+
+  if (currentItem) {
+    answerSentence.textContent = currentItem[currentLanguage] || "(No translation)";
+  }
+
+  if (isTypingMode) {
+    typingInput.value = "";
+    typingInput.focus();
   }
 }
 
 function speak(text, lang) {
   if (!text || !("speechSynthesis" in window)) return;
 
-  speechSynthesis.cancel();
+  try {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
 
-  const utterance = new SpeechSynthesisUtterance(text);
-  const preferred = languageVoices[lang] || [];
-  const voices = speechSynthesis.getVoices();
+    const prefixes = {
+      eng: ["en-US", "en-GB", "en"],
+      deu: ["de-DE", "de"],
+      esp: ["es-MX", "es-419", "es-US", "es"],
+      fra: ["fr-FR", "fr-CA", "fr"],
+      sve: ["sv-SE", "sv"]
+    };
 
-  let voice = null;
-  for (const prefix of preferred) {
-    voice = voices.find(v => v.lang.toLowerCase() === prefix.toLowerCase());
-    if (voice) break;
-    voice = voices.find(v => v.lang.toLowerCase().startsWith(prefix.toLowerCase()));
-    if (voice) break;
-  }
+    const preferred = prefixes[lang] || [];
+    const voices = window.speechSynthesis.getVoices();
 
-  if (voice) {
-    utterance.voice = voice;
-    utterance.lang = voice.lang;
-  } else if (preferred.length) {
-    utterance.lang = preferred[0];
-  }
+    const voice = voices.find(v =>
+      preferred.some(prefix => v.lang.toLowerCase() === prefix.toLowerCase())
+    ) || voices.find(v =>
+      preferred.some(prefix => v.lang.toLowerCase().startsWith(prefix.toLowerCase()))
+    );
 
-  speechSynthesis.speak(utterance);
-}
-
-function showAnswer() {
-  const sentence = currentSentence();
-  if (!sentence) return;
-
-  if (!answerVisible) {
-    answerVisible = true;
-    render();
-
-    if (mode === "view") {
-      speak(getTranslation(sentence, currentLanguage), currentLanguage);
+    if (voice) {
+      utterance.voice = voice;
+      utterance.lang = voice.lang;
+    } else {
+      utterance.lang = preferred[0] || "en-US";
     }
-  } else {
-    nextSentence();
+
+    window.speechSynthesis.speak(utterance);
+  } catch {
+    mainStatus.textContent = "Speech playback is unavailable.";
   }
 }
 
-function nextSentence() {
-  if (!inventory.length) return;
+function showPage(page) {
+  mainPage.classList.add("hidden");
+  loadPage.classList.add("hidden");
+  inventoryPage.classList.add("hidden");
+  page.classList.remove("hidden");
 
-  currentIndex = (currentIndex + 1) % inventory.length;
-  answerVisible = false;
-  userInput.value = "";
-  render();
-}
-
-function setMode(nextMode) {
-  mode = nextMode;
-  answerVisible = false;
-
-  document.getElementById("viewModeBtn").classList.toggle("active", mode === "view");
-  document.getElementById("typingModeBtn").classList.toggle("active", mode === "typing");
-
-  userInput.value = "";
-  render();
-}
-
-function showPage(pageId) {
-  document.querySelectorAll("#mainPage, #inventoryPage, #loadPage").forEach(page => {
-    page.classList.toggle("active", page.id === pageId);
-  });
-
-  if (pageId === "inventoryPage") renderInventory();
+  if (page === inventoryPage) renderInventory();
+  window.scrollTo(0, 0);
 }
 
 function renderInventory() {
-  const list = document.getElementById("inventoryList");
-  list.innerHTML = "";
+  inventoryList.replaceChildren();
 
-  if (!inventory.length) {
-    list.textContent = "Inventory is empty.";
+  if (inventory.length === 0) {
+    inventoryList.textContent = "No sentences saved.";
     return;
   }
 
-  inventory.forEach((sentence, index) => {
-    const item = document.createElement("div");
-    item.className = "inventory-item";
+  inventory.forEach((item, index) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "inventory-item";
 
-    const text = document.createElement("div");
-    text.textContent = `${index + 1}. ${sentence.eng || ""}`;
-    item.appendChild(text);
+    const pre = document.createElement("pre");
+    pre.textContent =
+      "[eng]\n" + item.eng + "\n" + item.deu + "\n" +
+      item.esp + "\n" + item.fra + "\n" + item.sve;
 
-    const details = document.createElement("div");
-    details.style.color = "#666";
-    details.style.marginTop = "6px";
-    details.textContent = [
-      sentence.deu || "",
-      sentence.esp || "",
-      sentence.fra || "",
-      sentence.sve || ""
-    ].filter(Boolean).join(" | ");
-    item.appendChild(details);
+    const removeButton = document.createElement("button");
+    removeButton.className = "remove-btn";
+    removeButton.textContent = "Remove";
 
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove";
-    removeBtn.addEventListener("click", () => {
+    removeButton.addEventListener("click", () => {
+      if (!window.confirm("Are you sure you want to remove this sentence?")) return;
+
+      const removedItem = inventory[index];
       inventory.splice(index, 1);
-      if (currentIndex >= inventory.length) {
-        currentIndex = Math.max(0, inventory.length - 1);
+
+      if (!saveStorage()) {
+        inventory.splice(index, 0, removedItem);
+        renderInventory();
+        loadStatus.textContent = "Unable to save changes.";
+        return;
       }
-      saveInventory();
+
+      if (currentItem === item) {
+        currentItem = null;
+        randomItem();
+      }
+
       renderInventory();
-      render();
     });
-    item.appendChild(removeBtn);
 
-    list.appendChild(item);
+    wrapper.appendChild(pre);
+    wrapper.appendChild(removeButton);
+    inventoryList.appendChild(wrapper);
   });
 }
 
-function parseImport(text) {
-  const blocks = text.split(/^\[eng\]\s*$/gim).slice(1);
-  const parsed = [];
-
-  for (const block of blocks) {
-    const lines = block.trim().split(/\r?\n/).map(line => line.trim()).filter(Boolean);
-    if (!lines.length) continue;
-
-    parsed.push({
-      eng: lines[0] || "",
-      deu: lines[1] || "",
-      esp: lines[2] || "",
-      fra: lines[3] || "",
-      sve: lines[4] || ""
-    });
-  }
-
-  return parsed;
+function getAllAsText() {
+  return inventory.map(item =>
+    "[eng]\n" + item.eng + "\n" + item.deu + "\n" +
+    item.esp + "\n" + item.fra + "\n" + item.sve
+  ).join("\n\n");
 }
 
-document.querySelectorAll("[data-lang]").forEach(button => {
-  button.addEventListener("click", () => {
-    currentLanguage = button.dataset.lang;
+function setMode(typing) {
+  isTypingMode = typing;
 
-    document.querySelectorAll("[data-lang]").forEach(btn => {
-      btn.classList.toggle("active", btn === button);
-    });
+  modeViewBtn.classList.toggle("active", !typing);
+  modeTypingBtn.classList.toggle("active", typing);
+  viewActions.classList.toggle("hidden", typing);
+  typingArea.classList.toggle("hidden", !typing);
 
-    answerVisible = false;
-    render();
-  });
+  if (typing) {
+    if (typingHideAnswer) {
+      answerShown = false;
+      answerSentence.classList.remove("show");
+      toggleTypingAnswerBtn.textContent = "Show Answer";
+    } else {
+      answerShown = true;
+      answerSentence.classList.add("show");
+      toggleTypingAnswerBtn.textContent = "Hide Answer";
+    }
+    typingInput.value = "";
+    typingInput.focus();
+  } else {
+    answerShown = false;
+    answerSentence.classList.remove("show");
+    showAnswerBtn.textContent = "✨Show Answer";
+  }
+}
+
+document.querySelectorAll(".lang-btn").forEach(button => {
+  button.addEventListener("click", () => switchLanguage(button.dataset.lang));
 });
 
-showAnswerBtn.addEventListener("click", showAnswer);
+modeViewBtn.addEventListener("click", () => setMode(false));
+modeTypingBtn.addEventListener("click", () => setMode(true));
 
-document.getElementById("viewModeBtn").addEventListener("click", () => {
-  setMode("view");
-});
+showAnswerBtn.addEventListener("click", () => {
+  if (!currentItem) return;
 
-document.getElementById("typingModeBtn").addEventListener("click", () => {
-  setMode("typing");
-});
-
-userInput.addEventListener("keydown", event => {
-  if (event.key === "Enter" && !event.shiftKey) {
-    event.preventDefault();
-    nextSentence();
+  if (!answerShown) {
+    answerShown = true;
+    answerSentence.classList.add("show");
+    answerSentence.textContent = currentItem[currentLanguage] || "(No translation)";
+    showAnswerBtn.textContent = "✨Next";
+    speak(currentItem[currentLanguage], currentLanguage);
+  } else {
+    randomItem();
   }
 });
 
-document.getElementById("inventoryBtn").addEventListener("click", () => {
-  showPage("inventoryPage");
+toggleTypingAnswerBtn.addEventListener("click", () => {
+  typingHideAnswer = !typingHideAnswer;
+
+  if (typingHideAnswer) {
+    answerShown = false;
+    answerSentence.classList.remove("show");
+    toggleTypingAnswerBtn.textContent = "Show Answer";
+  } else {
+    answerShown = true;
+    answerSentence.classList.add("show");
+    toggleTypingAnswerBtn.textContent = "Hide Answer";
+  }
 });
 
-document.getElementById("loadBtn").addEventListener("click", () => {
-  showPage("loadPage");
+typingInput.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    randomItem();
+  }
 });
 
-document.getElementById("backFromInventoryBtn").addEventListener("click", () => {
-  showPage("mainPage");
+englishSentence.addEventListener("click", () => {
+  if (currentItem) speak(currentItem.eng, "eng");
 });
 
-document.getElementById("backFromLoadBtn").addEventListener("click", () => {
-  showPage("mainPage");
+answerSentence.addEventListener("click", () => {
+  if (currentItem && answerSentence.classList.contains("show")) {
+    speak(currentItem[currentLanguage], currentLanguage);
+  }
 });
 
-document.getElementById("importBtn").addEventListener("click", () => {
-  const parsed = parseImport(document.getElementById("importText").value);
-  if (!parsed.length) {
-    document.getElementById("loadStatus").textContent = "No valid sentences found.";
+inventoryBtn.addEventListener("click", () => showPage(inventoryPage));
+
+loadBtn.addEventListener("click", () => {
+  loadStatus.textContent = "";
+  showPage(loadPage);
+});
+
+document.getElementById("backFromLoadBtn").addEventListener("click", () => showPage(mainPage));
+document.getElementById("backFromInventoryBtn").addEventListener("click", () => showPage(mainPage));
+
+saveBtn.addEventListener("click", () => {
+  const parsed = parseInput(loadInput.value);
+
+  if (parsed.length === 0) {
+    loadStatus.textContent = "No valid sentence sets found.";
     return;
   }
 
   inventory.push(...parsed);
-  saveInventory();
-  currentIndex = Math.max(0, inventory.length - parsed.length);
-  answerVisible = false;
 
-  document.getElementById("loadStatus").textContent = `${parsed.length} sentences loaded.`;
-  showPage("mainPage");
-  render();
+  if (!saveStorage()) {
+    inventory.splice(inventory.length - parsed.length, parsed.length);
+    loadStatus.textContent = "Unable to save. Storage may be unavailable or full.";
+    return;
+  }
+
+  loadStatus.textContent = `${parsed.length} sentence set${parsed.length === 1 ? "" : "s"} loaded.`;
+  loadInput.value = "";
 });
 
-document.getElementById("copyAllBtn").addEventListener("click", async () => {
-  const text = inventory.map(sentence =>
-    [
-      "[eng]",
-      sentence.eng || "",
-      sentence.deu || "",
-      sentence.esp || "",
-      sentence.fra || "",
-      sentence.sve || ""
-    ].join("\n")
-  ).join("\n\n");
+copyAllBtn.addEventListener("click", async () => {
+  const text = getAllAsText();
+  if (!text) return;
 
   try {
     await navigator.clipboard.writeText(text);
-    document.getElementById("copyAllBtn").textContent = "Copied!";
-    setTimeout(() => {
-      document.getElementById("copyAllBtn").textContent = "Copy All";
-    }, 1500);
   } catch {
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    textarea.remove();
+    const temp = document.createElement("textarea");
+    temp.value = text;
+    temp.style.position = "fixed";
+    temp.style.opacity = "0";
+    document.body.appendChild(temp);
+    temp.select();
+    const copied = document.execCommand("copy");
+    temp.remove();
+
+    if (!copied) {
+      copyAllBtn.textContent = "Copy failed";
+      return;
+    }
   }
+
+  copyAllBtn.textContent = "Copied";
+  window.setTimeout(() => {
+    copyAllBtn.textContent = "Copy All";
+  }, 1200);
 });
 
-loadInventory();
-render();
+loadStorage();
+updateLanguageButtons();
+randomItem();
 </script>
 </body>
 </html>
