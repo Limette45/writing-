@@ -69,9 +69,12 @@ button.active {
   max-width: 150px;
 }
 
-.page-controls button,
-.mode-controls button {
+.page-controls button {
   flex: 0 1 140px;
+}
+
+.mode-controls button {
+  flex: 0 1 130px;
 }
 
 main {
@@ -132,6 +135,10 @@ main {
 
 .actions button {
   min-width: 120px;
+}
+
+.mode-controls {
+  margin-top: 16px;
 }
 
 textarea {
@@ -366,10 +373,6 @@ h2 {
       <button class="lang-btn" data-lang="sve">🇸🇪Svenska</button>
       <button class="lang-btn" data-lang="fra">🇫🇷Français</button>
     </div>
-    <div class="mode-controls">
-      <button id="modeViewBtn" class="active">View Mode</button>
-      <button id="modeTypingBtn">Typing Mode</button>
-    </div>
     <div class="page-controls">
       <button id="inventoryBtn">Inventory</button>
       <button id="loadBtn">Load</button>
@@ -444,6 +447,12 @@ h2 {
         <p><code>\ps</code> → ψ &nbsp; <code>\Ps</code> → Ψ</p>
         <p><code>\w</code> → ω &nbsp; <code>\W</code> → Ω</p>
       </div>
+    </div>
+
+    <!-- Mode switch buttons moved to bottom -->
+    <div class="mode-controls">
+      <button id="modeViewBtn" class="active">View Mode</button>
+      <button id="modeTypingBtn">Typing Mode</button>
     </div>
 
     <div id="mainStatus" class="status"></div>
@@ -819,7 +828,7 @@ function normalizeForCompare(str) {
 
 function randomItem() {
   mainStatus.textContent = "";
-  answerShown = false;
+  answerShown = isTypingMode; // Default show in Typing mode
   showAnswerBtn.textContent = "Show Answer";
 
   if (correctTimeout) {
@@ -847,10 +856,12 @@ function randomItem() {
   englishSentence.textContent = currentItem.eng;
   answerSentence.textContent =
     currentItem[currentLanguage] || "(No translation)";
-  answerSentence.classList.remove("show");
-
+    
   if (isTypingMode) {
+    answerSentence.classList.add("show");
     typingInput.focus();
+  } else {
+    answerSentence.classList.remove("show");
   }
 }
 
@@ -1015,18 +1026,20 @@ function setMode(typing) {
   viewActions.classList.toggle("hidden", typing);
   typingArea.classList.toggle("hidden", !typing);
 
-  // Reset answer visibility
-  answerShown = false;
-  answerSentence.classList.remove("show");
-  showAnswerBtn.textContent = "Show Answer";
-
+  // Set answer visibility based on mode
   if (typing) {
+    answerShown = true;
+    answerSentence.classList.add("show");
     typingInput.value = "";
     typingPreview.textContent = "";
     typingFeedback.textContent = "";
     typingFeedback.className = "typing-feedback";
     typingInput.classList.remove("correct", "incorrect");
     typingInput.focus();
+  } else {
+    answerShown = false;
+    answerSentence.classList.remove("show");
+    showAnswerBtn.textContent = "Show Answer";
   }
 }
 
