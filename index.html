@@ -365,6 +365,9 @@ Det här är det coolaste jag någonsin har gjort."></textarea>
       </div>
     </div>
     <div id="inventoryList"></div>
+    <div class="actions">
+      <button id="downloadInventoryBtn">Download TXT</button>
+    </div>
   </section>
 </main>
 
@@ -783,6 +786,19 @@ copyAllBtn.addEventListener("click", async () => {
   window.setTimeout(() => {
     copyAllBtn.textContent = "Copy All";
   }, 1200);
+});
+
+document.getElementById("downloadInventoryBtn").addEventListener("click", () => {
+  const text = getAllAsText();
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "WritingInventory.txt";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
 });
 
 loadStorage();
