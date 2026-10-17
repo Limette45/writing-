@@ -105,6 +105,7 @@ main {
   display: block;
 }
 .actions {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,6 +121,17 @@ main {
   padding: 14px 24px;
   min-width: 160px;
   font-size: 17px;
+}
+.audio-toggle {
+  position: absolute;
+  right: 8px;
+  bottom: -30px;
+  min-height: 30px;
+  padding: 5px 9px;
+  font-size: 13px;
+}
+#viewActions {
+  margin-bottom: 34px;
 }
 .mode-controls {
   display: flex;
@@ -295,7 +307,7 @@ h2 {
 
     <div class="actions" id="viewActions">
       <button id="showAnswerBtn">✨Show Answer</button>
-      <button id="audioToggleBtn" type="button" aria-pressed="true">🔊Audio: ON</button>
+      <button id="audioToggleBtn" class="audio-toggle">🔊Audio: ON</button>
     </div>
 
     <div id="typingArea" class="typing-area hidden">
@@ -314,7 +326,7 @@ h2 {
 
     <div class="bottom-controls">
       <div class="page-controls">
-        <button id="inventoryBtn">📁Inventory (<span id="inventoryCount">0</span>)</button>
+        <button id="inventoryBtn">📁Inventory</button>
         <button id="loadBtn">📥Load</button>
       </div>
     </div>
@@ -346,6 +358,7 @@ Det här är det coolaste jag någonsin har gjort."></textarea>
   <section id="inventoryPage" class="hidden">
     <h2>Inventory</h2>
     <div class="actions" style="justify-content:flex-start; margin-top:0;">
+      <div id="inventoryCount" style="align-self:center; margin-right:auto;">0 sentences</div>
       <button id="copyAllBtn">Copy All</button>
       <button id="backFromInventoryBtn">Back</button>
     </div>
@@ -420,7 +433,8 @@ function loadStorage() {
 }
 
 function updateInventoryCount() {
-  inventoryCount.textContent = inventory.length;
+  inventoryCount.textContent = `${inventory.length} sentence${inventory.length === 1 ? "" : "s"}`;
+  inventoryBtn.textContent = `📁Inventory (${inventory.length})`;
 }
 
 function saveStorage() {
@@ -501,7 +515,13 @@ function randomItem() {
 }
 
 function updateLanguageButtons() {
-  document.querySelectorAll(".lang-btn").forEach(button => {
+  audioToggleBtn.addEventListener("click", () => {
+  autoAudioEnabled = !autoAudioEnabled;
+  audioToggleBtn.textContent = autoAudioEnabled ? "🔊Audio: ON" : "🔇Audio: OFF";
+  audioToggleBtn.classList.toggle("active", !autoAudioEnabled);
+});
+
+document.querySelectorAll(".lang-btn").forEach(button => {
     button.classList.toggle("active", button.dataset.lang === currentLanguage);
   });
 }
@@ -608,6 +628,7 @@ function renderInventory() {
         randomItem();
       }
 
+      updateInventoryCount();
       renderInventory();
     });
 
@@ -651,15 +672,14 @@ function setMode(typing) {
   }
 }
 
-document.querySelectorAll(".lang-btn").forEach(button => {
-  button.addEventListener("click", () => switchLanguage(button.dataset.lang));
-});
-
 audioToggleBtn.addEventListener("click", () => {
   autoAudioEnabled = !autoAudioEnabled;
   audioToggleBtn.textContent = autoAudioEnabled ? "🔊Audio: ON" : "🔇Audio: OFF";
-  audioToggleBtn.setAttribute("aria-pressed", String(autoAudioEnabled));
-  if (!autoAudioEnabled && "speechSynthesis" in window) window.speechSynthesis.cancel();
+  audioToggleBtn.classList.toggle("active", !autoAudioEnabled);
+});
+
+document.querySelectorAll(".lang-btn").forEach(button => {
+  button.addEventListener("click", () => switchLanguage(button.dataset.lang));
 });
 
 modeViewBtn.addEventListener("click", () => setMode(false));
@@ -706,7 +726,7 @@ englishSentence.addEventListener("click", () => {
 
 answerSentence.addEventListener("click", () => {
   if (currentItem && answerSentence.classList.contains("show")) {
-    if (autoAudioEnabled) speak(currentItem[currentLanguage], currentLanguage);
+    speak(currentItem[currentLanguage], currentLanguage);
   }
 });
 
@@ -736,6 +756,7 @@ saveBtn.addEventListener("click", () => {
     return;
   }
 
+  updateInventoryCount();
   loadStatus.textContent = `${parsed.length} sentence set${parsed.length === 1 ? "" : "s"} loaded.`;
   loadInput.value = "";
 });
@@ -769,6 +790,7 @@ copyAllBtn.addEventListener("click", async () => {
 });
 
 loadStorage();
+updateInventoryCount();
 updateLanguageButtons();
 randomItem();
 </script>
