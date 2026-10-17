@@ -295,6 +295,7 @@ h2 {
 
     <div class="actions" id="viewActions">
       <button id="showAnswerBtn">✨Show Answer</button>
+      <button id="audioToggleBtn" type="button" aria-pressed="true">🔊Audio: ON</button>
     </div>
 
     <div id="typingArea" class="typing-area hidden">
@@ -313,7 +314,7 @@ h2 {
 
     <div class="bottom-controls">
       <div class="page-controls">
-        <button id="inventoryBtn">📁Inventory</button>
+        <button id="inventoryBtn">📁Inventory (<span id="inventoryCount">0</span>)</button>
         <button id="loadBtn">📥Load</button>
       </div>
     </div>
@@ -364,6 +365,7 @@ let currentItem = null;
 let answerShown = false;
 let isTypingMode = false;
 let typingHideAnswer = false;
+let autoAudioEnabled = true;
 
 const mainPage = document.getElementById("mainPage");
 const loadPage = document.getElementById("loadPage");
@@ -373,6 +375,8 @@ const englishSentence = document.getElementById("englishSentence");
 const answerSentence = document.getElementById("answerSentence");
 
 const showAnswerBtn = document.getElementById("showAnswerBtn");
+const audioToggleBtn = document.getElementById("audioToggleBtn");
+const inventoryCount = document.getElementById("inventoryCount");
 const inventoryBtn = document.getElementById("inventoryBtn");
 const loadBtn = document.getElementById("loadBtn");
 
@@ -413,6 +417,10 @@ function loadStorage() {
   } catch {
     inventory = [];
   }
+}
+
+function updateInventoryCount() {
+  inventoryCount.textContent = inventory.length;
 }
 
 function saveStorage() {
@@ -647,6 +655,13 @@ document.querySelectorAll(".lang-btn").forEach(button => {
   button.addEventListener("click", () => switchLanguage(button.dataset.lang));
 });
 
+audioToggleBtn.addEventListener("click", () => {
+  autoAudioEnabled = !autoAudioEnabled;
+  audioToggleBtn.textContent = autoAudioEnabled ? "🔊Audio: ON" : "🔇Audio: OFF";
+  audioToggleBtn.setAttribute("aria-pressed", String(autoAudioEnabled));
+  if (!autoAudioEnabled && "speechSynthesis" in window) window.speechSynthesis.cancel();
+});
+
 modeViewBtn.addEventListener("click", () => setMode(false));
 modeTypingBtn.addEventListener("click", () => setMode(true));
 
@@ -658,7 +673,7 @@ showAnswerBtn.addEventListener("click", () => {
     answerSentence.classList.add("show");
     answerSentence.textContent = currentItem[currentLanguage] || "(No translation)";
     showAnswerBtn.textContent = "✨Next";
-    speak(currentItem[currentLanguage], currentLanguage);
+    if (autoAudioEnabled) speak(currentItem[currentLanguage], currentLanguage);
   } else {
     randomItem();
   }
@@ -691,7 +706,7 @@ englishSentence.addEventListener("click", () => {
 
 answerSentence.addEventListener("click", () => {
   if (currentItem && answerSentence.classList.contains("show")) {
-    speak(currentItem[currentLanguage], currentLanguage);
+    if (autoAudioEnabled) speak(currentItem[currentLanguage], currentLanguage);
   }
 });
 
